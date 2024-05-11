@@ -5,20 +5,21 @@ import com.example.shop.user.SiteUserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class SiteUserRepositoryTests {
 
     @Autowired
-    private SiteUserRepository userRepository;
+    private SiteUserRepository siteUserRepository;
 
     @Test
     void 저장() {
-        SiteUser u1 = new SiteUser();
-        u1.changeUserBasicInfo("홍길동", "1234", "hone@email.com",
-                "경기도 용인시 기흥구 흥덕동");
-        userRepository.save(u1);
 
-        System.out.println(userRepository.count() == 1);
+        SiteUser u1 = new SiteUser();
+        u1.changeUserBasicInfo("홍길동", "1234", "hong@email.com", "경기도 용인시 기흥구");
+        siteUserRepository.save(u1);
+
+        assertThat(siteUserRepository.count()).isEqualTo(1L);
     }
 }

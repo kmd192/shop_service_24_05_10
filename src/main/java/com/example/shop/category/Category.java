@@ -1,10 +1,11 @@
 package com.example.shop.category;
 
-import jakarta.persistence.*;
-import lombok.Getter;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
-@Getter
 public class Category {
 
     @Id
@@ -14,8 +15,6 @@ public class Category {
     private String gender;
 
     private String clothType;
-
-    private String clothMaterial;
 
     private String season;
 }

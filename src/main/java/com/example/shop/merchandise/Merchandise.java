@@ -1,17 +1,17 @@
 package com.example.shop.merchandise;
 
+import com.example.shop.cart.Cart;
 import com.example.shop.category.Category;
 import com.example.shop.review.Review;
 import com.example.shop.user.SiteUser;
 import jakarta.persistence.*;
-import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-@Getter
 public class Merchandise {
 
     @Id
@@ -28,22 +28,21 @@ public class Merchandise {
     @ManyToMany
     private Set<SiteUser> like;
 
-    @OneToMany
+    @OneToMany(mappedBy = "merchandise", cascade = CascadeType.REMOVE)
     private List<Review> reviewList = new ArrayList<>();
 
-    @ManyToMany
-    private List<Category> categories;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category categories;
 
-    @ManyToOne
-    private SiteUser registSiteUser;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SiteUser seller;
 
-    @ManyToOne
-    private SiteUser cartSiteUser;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cart cart;
 
-    public void changeMerchandiseInfo(SiteUser registSiteUser, String merchandiseName,
-                                      long price, String size, List<Category> categories){
-        this.merchandiseName = merchandiseName;
-        this.price = price;
-        this.categories = categories;
-    }
+    private String image;
+
+    private LocalDateTime createDate;
+
+    private LocalDateTime modifyDate;
 }

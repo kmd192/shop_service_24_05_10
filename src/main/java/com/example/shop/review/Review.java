@@ -3,12 +3,10 @@ package com.example.shop.review;
 import com.example.shop.merchandise.Merchandise;
 import com.example.shop.user.SiteUser;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
 public class Review {
 
     @Id
@@ -22,13 +20,13 @@ public class Review {
 
     private LocalDateTime modifyDate;
 
-    @ManyToOne
-    private SiteUser reviewSiteUser;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SiteUser reviewer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Merchandise merchandise;
 
-    public void changeReview(SiteUser reviewSiteUser, String review){
+    public void changeReview(String review){
         this.modifyDate = LocalDateTime.now();
         this.review = review;
     }

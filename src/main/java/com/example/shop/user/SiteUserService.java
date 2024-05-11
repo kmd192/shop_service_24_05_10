@@ -1,4 +1,13 @@
 package com.example.shop.user;
 
-public class SiteUserService {
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class
+
+SiteUserService {
+
+    private final SiteUserRepository siteUserRepository;
 }

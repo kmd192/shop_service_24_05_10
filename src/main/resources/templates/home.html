@@ -1,10 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html layout:decorate="~{layout}"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://thymeleaf.org">
 
-</body>
+<div layout:fragment="content" class="container min-vh-100 my-3">
+    <div class="row my-3">
+        <div class="col-3">
+            <form class="input-group">
+                <select class="form-select" name="sortList" th:value="${param.sortList}">
+                    <option value="NEW" selected>최신순</option>
+                    <option value="OLD">오래된순</option>
+                    <option value="LIKE">인기순</option>
+                    <option value="CHEAP">가격낮은순</option>
+                    <option value="EXPENSIVE">가격높은순</option>
+                </select>
+            </form>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-8">
+            <form class="input-group">
+                <input type="text" name="kw" class="form-control" th:value="${param.value}" placeholder="검색어를 입력해주세요.">
+                <button class="btn btn-outline-secondary" type="submit" style="margin-top:0;">검색</button>
+            </form>
+        </div>
+    </div>
+    <div class="row my-3">
+        <div class="col-1">
+            <form class="input-group">
+                <select class="form-select" name="sortGender" th:value="${param.sortGender}">
+                    <option value="NOGENDER" selected>성별</option>
+                    <option value="MALE">남</option>
+                    <option value="FEMALE">여</option>
+                </select>
+            </form>
+        </div>
+        <div class="col-1">
+            <form class="input-group">
+                <select class="form-select" name="sortType" th:value="${param.sortType}">
+                    <option value="NOTYPE" selected>타입</option>
+                    <option value="TOP">상의</option>
+                    <option value="BOTTOM">하의</option>.
+                    <option value="SHOES">신발</option>
+                </select>
+            </form>
+        </div>
+        <div class="col-1">
+            <form class="input-group">
+                <select class="form-select" name="sortSeason" th:value="${param.sortSeason}">
+                    <option value="NOSEASON" selected>계절</option>
+                    <option value="SPRING">봄,가을</option>
+                    <option value="SUMMER">여름</option>
+                    <option value="WINTER">겨울</option>
+                </select>
+            </form>
+        </div>
+    </div>
+<h2>SHOPPING MALL</h2>
+<div class="container text-center">
+    <div class="row m-2">
+        <div class="col p-5">
+            Column
+        </div>
+        <div class="col p-5">
+            Column
+        </div>
+        <div class="col p-5">
+            Column
+        </div>
+        <div class="col p-5">
+            Column
+        </div>
+    </div>
+</div>
+<div class="container text-center">
+    <div class="row m-2">
+        <div class="col p-5">
+            Column
+        </div>
+        <div class="col p-5">
+            Column
+        </div>
+        <div class="col p-5">
+            Column
+        </div>
+        <div class="col p-5">
+            Column
+        </div>
+    </div>
+</div>
+</div>
 </html>
