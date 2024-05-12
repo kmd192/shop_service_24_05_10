@@ -1,12 +1,16 @@
 package com.example.shop.user;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
 @Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class SiteUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

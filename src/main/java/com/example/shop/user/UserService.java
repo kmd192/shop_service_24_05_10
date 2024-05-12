@@ -9,22 +9,23 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SiteUserService {
+public class UserService {
 
-    private final SiteUserRepository siteUserRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     public SiteUser create(String username, String email, String password, String address){
-        SiteUser user = new SiteUser();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setAddress(address);
-        user.setPassword(passwordEncoder.encode(password));
+        SiteUser user = SiteUser.builder()
+                        .username(username)
+                        .email(email)
+                        .address(address)
+                        .password(passwordEncoder.encode(password))
+                        .build();
 
         try {
-            siteUserRepository.save(user);
+            userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
-            if (siteUserRepository.existsByUsername(username)) {
+            if (userRepository.existsByUsername(username)) {
                 throw new SignupUsernameDuplicatedException("이미 사용중인 username입니다.");
             } else {
                 throw new SignupEmailDuplicatedException("이미 사용중인 email입니다");

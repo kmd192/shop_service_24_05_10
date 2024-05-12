@@ -14,9 +14,9 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class SiteUserSecurityService implements UserDetailsService {
+public class UserSecurityService implements UserDetailsService {
 
-    private final SiteUserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
