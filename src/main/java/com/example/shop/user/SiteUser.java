@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SiteUser {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,14 +33,17 @@ public class SiteUser {
     /*@OneToOne(mappedBy = "cartUser", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Cart cart;*/
 
-    public void addCash(double add){
+    SiteUser addCashEntity(double add){
         this.cash = cash + add;
+
+        return this;
     }
 
-    public void changeUserBasicInfo(String username, String password, String email, String address){
-        this.username = username;
+    SiteUser changeUserBasicInfoEntity(String password, String email, String address){
         this.password = password;
         this.email = email;
         this.address = address;
+
+        return this;
     }
 }

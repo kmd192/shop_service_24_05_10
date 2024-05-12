@@ -35,4 +35,13 @@ public class UserService {
         return user;
     }
 
+    public void addCash(String username, double add){
+        SiteUser user = userRepository.findByUsername(username).get().addCashEntity(add);
+        userRepository.save(user);
+    }
+
+    public void changeUserBasicInfo(String username, String password, String email, String address){
+        SiteUser user = userRepository.findByUsername(username).get().changeUserBasicInfoEntity(passwordEncoder.encode(password), email, address);
+        userRepository.save(user);
+    }
 }
