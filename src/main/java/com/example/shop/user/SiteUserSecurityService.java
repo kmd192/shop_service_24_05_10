@@ -12,25 +12,33 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class SiteUserSecurityService implements UserDetailsService {
 
-    private final SiteUserRepository siteUserRepository;
+    private final SiteUserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        /*Optional<SiteUser> _siteUser = userRepository.findByusername(username);
 
-        SiteUser siteUser = siteUserRepository.findByUsername(username).orElseThrow(() ->
-                new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+        if(_siteUser.isEmpty()){
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
+        }
+        SiteUser siteUser = _siteUser.get();*/
+
+        SiteUser siteUser = userRepository.findByUsername(username).orElseThrow(() ->
+                new UsernameNotFoundException("사용자를 찾을 수 없습니다.")
+        );
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if("admin".equals(username)) {
-            authorities.add(new SimpleGrantedAuthority("ADMIN"));
+        if("admin".equals(username)){
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         } else {
-            authorities.add(new SimpleGrantedAuthority("USER"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
 
         return new User(siteUser.getUsername(), siteUser.getPassword(), authorities);
     }
+
 }
