@@ -2,6 +2,7 @@ package com.example.shop;
 
 import com.example.shop.user.UserRepository;
 import com.example.shop.user.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,12 +18,28 @@ public class UserRepositoryTests {
     @Autowired
     private UserService userService;
 
+    @BeforeEach
+    void beforeEach(){
+        clearData();
+        createSampleData();
+    }
+
+    private void clearData(){
+        userRepository.deleteAll();
+        userRepository.truncateTable();
+    }
+
+    private void createSampleData(){
+        userService.create("admin", "admin@test.com", "1234", "경기도 용인시 기흥구");
+        userService.create("user1", "user1@test.com", "1234", "경기도 용인시 기흥구");
+    }
+
     @Test
     void 저장() {
 
-        userService.create("admin", "admin@test.com", "1234", "경기도 용인시 기흥구");
-        userService.create("user1", "user1@test.com", "1234", "경기도 용인시 기흥구");
+        userService.create("user2", "user2@test.com", "1234", "경기도 용인시 기흥구");
+        userService.create("user3", "user3@test.com", "1234", "경기도 용인시 기흥구");
 
-        assertThat(userRepository.count()).isEqualTo(2L);
+        assertThat(userRepository.count()).isEqualTo(4L);
     }
 }
