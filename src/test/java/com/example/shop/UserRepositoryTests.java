@@ -57,7 +57,7 @@ public class UserRepositoryTests {
         userService.addCash("admin", 200000);
         userService.addCash("user1", 200000);
 
-        MerchandiseRepositoryTests.createSampleData(merchandiseService);
+        MerchandiseRepositoryTests.createSampleData(merchandiseService, userRepository);
     }
 
     public static void createSampleData(UserService userService){
