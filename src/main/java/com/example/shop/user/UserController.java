@@ -39,7 +39,7 @@ public class UserController {
         }
 
         try {
-            userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(),
+            userService.createUser(userCreateForm.getUsername(), userCreateForm.getEmail(),
                     userCreateForm.getPassword1(), userCreateForm.getAddress());
         } catch (SignupUsernameDuplicatedException e) {
             e.printStackTrace();

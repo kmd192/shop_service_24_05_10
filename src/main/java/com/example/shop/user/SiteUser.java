@@ -1,10 +1,14 @@
 package com.example.shop.user;
 
+import com.example.shop.merchandise.Merchandise;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -27,6 +31,9 @@ public class SiteUser {
     private String email;
 
     private String address;
+
+    @OneToMany(mappedBy = "seller")
+    private final List<Merchandise> merchandiseList = new ArrayList<>();
 
     private double cash;
 

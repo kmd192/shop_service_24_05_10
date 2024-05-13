@@ -14,7 +14,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public SiteUser create(String username, String email, String password, String address){
+    public SiteUser createUser(String username, String email, String password, String address){
         SiteUser user = SiteUser.builder()
                         .username(username)
                         .email(email)
@@ -36,12 +36,14 @@ public class UserService {
     }
 
     public void addCash(String username, double add){
-        SiteUser user = userRepository.findByUsername(username).get().addCashEntity(add);
-        userRepository.save(user);
+        userRepository.save(userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("no such data"))
+                .addCashEntity(add));
     }
 
     public void changeUserBasicInfo(String username, String password, String email, String address){
-        SiteUser user = userRepository.findByUsername(username).get().changeUserBasicInfoEntity(passwordEncoder.encode(password), email, address);
-        userRepository.save(user);
+        userRepository.save(userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("no such data"))
+                .changeUserBasicInfoEntity(passwordEncoder.encode(password), email, address));
     }
 }

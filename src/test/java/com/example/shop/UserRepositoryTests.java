@@ -1,8 +1,11 @@
 package com.example.shop;
 
+import com.example.shop.merchandise.MerchandiseRepository;
+import com.example.shop.merchandise.MerchandiseService;
 import com.example.shop.user.UserRepository;
 import com.example.shop.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +21,12 @@ public class UserRepositoryTests {
     private UserRepository userRepository;
 
     @Autowired
+    private MerchandiseRepository merchandiseRepository;
+
+    @Autowired
+    private MerchandiseService merchandiseService;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -30,13 +39,30 @@ public class UserRepositoryTests {
     }
 
     private void clearData(){
-        userRepository.deleteAll();
+        clearAllData(userRepository, merchandiseRepository);
+    }
+
+    public static void clearAllData(UserRepository userRepository,
+                                 MerchandiseRepository merchandiseRepository){
+        merchandiseRepository.deleteAllInBatch();
+        merchandiseRepository.truncateTable();
+
+        userRepository.deleteAllInBatch();
         userRepository.truncateTable();
     }
 
     private void createSampleData(){
-        userService.create("admin", "admin@test.com", "1234", "경기도 용인시 기흥구");
-        userService.create("user1", "user1@test.com", "1234", "경기도 용인시 기흥구");
+        userService.createUser("admin", "admin@test.com", "1234", "경기도 용인시 기흥구");
+        userService.createUser("user1", "user1@test.com", "1234", "경기도 용인시 기흥구");
+        userService.addCash("admin", 200000);
+        userService.addCash("user1", 200000);
+
+        MerchandiseRepositoryTests.createSampleData(merchandiseService);
+    }
+
+    public static void createSampleData(UserService userService){
+        userService.createUser("admin", "admin@test.com", "1234", "경기도 용인시 기흥구");
+        userService.createUser("user1", "user1@test.com", "1234", "경기도 용인시 기흥구");
         userService.addCash("admin", 200000);
         userService.addCash("user1", 200000);
     }
@@ -44,14 +70,15 @@ public class UserRepositoryTests {
     @Test
     void 저장() {
 
-        userService.create("user2", "user2@test.com", "1234", "경기도 용인시 기흥구");
-        userService.create("user3", "user3@test.com", "1234", "경기도 용인시 기흥구");
+        userService.createUser("user2", "user2@test.com", "1234", "경기도 용인시 기흥구");
+        userService.createUser("user3", "user3@test.com", "1234", "경기도 용인시 기흥구");
 
         assertThat(userRepository.count()).isEqualTo(4L);
     }
 
     @Test
-    void 변경() {
+    @DisplayName("변경")
+    void changeUserBasicInfo() {
 
         userService.changeUserBasicInfo("admin", "12345","modify1@test.com", "서울");
 

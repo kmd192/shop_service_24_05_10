@@ -5,13 +5,20 @@ import com.example.shop.category.Category;
 import com.example.shop.review.Review;
 import com.example.shop.user.SiteUser;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class Merchandise {
 
     @Id
@@ -28,8 +35,8 @@ public class Merchandise {
     @ManyToMany
     private Set<SiteUser> like;
 
-    @OneToMany(mappedBy = "merchandise", cascade = CascadeType.REMOVE)
-    private List<Review> reviewList = new ArrayList<>();
+    @OneToMany(mappedBy = "merchandise")
+    private final List<Review> reviewList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category categories;
@@ -42,7 +49,13 @@ public class Merchandise {
 
     private String image;
 
-    private LocalDateTime createDate;
+    Merchandise changeMerchandiseInfoEntity(String merchandiseName, long price,
+                          String size, String image){
+        this.merchandiseName = merchandiseName;
+        this.price = price;
+        this.size = size;
+        this.image = image;
 
-    private LocalDateTime modifyDate;
+        return this;
+    }
 }
