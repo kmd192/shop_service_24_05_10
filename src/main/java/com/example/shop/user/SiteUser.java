@@ -1,5 +1,6 @@
 package com.example.shop.user;
 
+import com.example.shop.cart.Cart;
 import com.example.shop.merchandise.Merchandise;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,9 @@ public class SiteUser {
     private final List<Merchandise> merchandiseList = new ArrayList<>();
 
     private double cash;
+
+    @OneToOne
+    private Cart cart;
 
     /*@OneToOne(mappedBy = "cartUser", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Cart cart;*/

@@ -12,7 +12,7 @@ public class Cart {
 
     private String merchandiseList;
 
-    @OneToOne
+    @OneToOne(mappedBy = "cart")
     private SiteUser cartUser;
 
     public void changeCart(String merchandiseList){

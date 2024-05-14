@@ -18,7 +18,6 @@ public class UserCreateForm {
     @NotEmpty(message = "비밀번호를 입력해주세요.")
     private String password1;
 
-    @Size(min = 4, max = 20)
     @NotEmpty(message = "비밀번호 확인을 입력해주세요.")
     private String password2;
 

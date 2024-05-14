@@ -1,0 +1,50 @@
+<html layout:decorate="~{layout}"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://thymeleaf.org">
+
+<div layout:fragment="content" th:object="${merchandiseCreateForm}" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>상품등록</div>
+    </div>
+        <form th:action="@{/merchandise/create}" method="post">
+            <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+            <div class="mb-3">
+                <label for="merchandiseName" class="form-label">상품명</label>
+                <input type="text" th:field="*{merchandiseName}" id="merchandiseName" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">가격</label>
+                <input type="text" th:field="*{price}" id="price" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">카테고리</label>
+                <form class="input-group" id="category">
+                    <select class="form-select" th:name="category" th:value="${param.category}">
+                        <option th:selected="${category == 'NOCATEGORY'}" th:value="NOCATEGORY" selected>선택</option>
+                        <option th:selected="${category == 'TOP'}" th:value="TOP">상의</option>
+                        <option th:selected="${category == 'BOTTOM'}" th:value="BOTTOM">하의</option>
+                        <option th:selected="${category == 'SHOES'}" th:value="SHOES">신발</option>
+                    </select>
+                </form>
+            </div>
+            <div class="mb-3">
+                <label for="size" class="form-label">사이즈</label>
+                <form id="size" class="input-group">
+                    <select th:disabled="${merchandiseCreateForm.category != 'TOP'}" class="form-select" th:name="size" th:value="${param.size}">
+                        <option th:selected="${size == 'S'}" th:value="S" selected>S</option>
+                        <option th:selected="${size == 'M'}" th:value="M">M</option>
+                        <option th:selected="${size == 'L'}" th:value="L">L</option>
+                        <option th:selected="${size == 'XL'}" th:value="XL">XL</option>
+                        <option th:selected="${size == 'XXL'}" th:value="XXL">XXL</option>
+                    </select>
+                </form>
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">이미지</label>
+                <input type="text" th:field="*{image}" id="image" class="form-control">
+            </div>
+        </form>
+</div>
+<script layout:fragment="script" type='text/javascript'>
+</script>
+</html>

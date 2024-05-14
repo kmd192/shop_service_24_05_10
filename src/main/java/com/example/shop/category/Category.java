@@ -1,9 +1,10 @@
 package com.example.shop.category;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.shop.merchandise.Merchandise;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Category {
@@ -17,4 +18,7 @@ public class Category {
     private String clothType;
 
     private String season;
+
+    @OneToMany(mappedBy = "category")
+    private List<Merchandise> merchandiseList = new ArrayList<>();
 }

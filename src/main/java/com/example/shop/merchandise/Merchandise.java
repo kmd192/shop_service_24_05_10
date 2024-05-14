@@ -39,7 +39,7 @@ public class Merchandise {
     private final List<Review> reviewList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Category categories;
+    private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private SiteUser seller;
