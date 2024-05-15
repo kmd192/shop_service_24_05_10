@@ -84,7 +84,7 @@
         </tr>
         </tbody>
     </table>
-    <div th:if="${!paging.isEmpty()}">
+    <div th:if="${paging != null and !paging.isEmpty()}">
         <ul class ="pagination justify-content-center">
             <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
                 <a class="page-link"

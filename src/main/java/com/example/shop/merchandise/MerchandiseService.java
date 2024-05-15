@@ -1,6 +1,7 @@
 package com.example.shop.merchandise;
 
 import com.example.shop.user.SiteUser;
+import com.example.shop.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,8 @@ import java.util.List;
 public class MerchandiseService {
 
     private final MerchandiseRepository merchandiseRepository;
+
+    private final UserRepository userRepository;
 
     public Merchandise createMerchandise(String merchandiseName, long price,
                                          String size, String image, SiteUser seller){

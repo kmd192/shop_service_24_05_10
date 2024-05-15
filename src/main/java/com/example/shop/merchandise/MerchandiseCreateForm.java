@@ -1,8 +1,6 @@
 package com.example.shop.merchandise;
 
-import com.example.shop.category.Category;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,19 +8,28 @@ import lombok.Setter;
 @Setter
 public class MerchandiseCreateForm {
 
-    @Size(min = 1, max = 20)
-    @NotEmpty(message = "상품명을 입력해주세요.")
+    @Size(max = 20, message = "상품명은 20자 이하여야 합니다.")
+    @NotBlank(message = "상품명을 입력해주세요.")
     private String merchandiseName;
 
-    @Size(min = 1, max = 10)
-    @NotEmpty(message = "가격을 입력해주세요.")
+    @Min(value = 1, message = "가격은 1이상이어야 합니다.")
+    @Max(999999999)
     private long price;
 
-    @NotEmpty(message = "카테고리를 입력해주세요.")
-    private Category category;
+    @NotEmpty(message = "성별을 입력해주세요.")
+    private String gender;
 
-    @NotEmpty(message = "사이즈를 입력해주세요.")
+    @NotEmpty(message = "타입을 입력해주세요.")
+    private String clothType;
+
+    @NotEmpty(message = "계절을 입력해주세요.")
+    private String season;
+
+    @NotEmpty(message = "사이즈를 선택해주세요.")
     private String size;
+
+    @NotEmpty(message = "사이즈를 선택해주세요.")
+    private String size2;
 
     @NotEmpty(message = "이미지를 등록해주세요.")
     private String image;

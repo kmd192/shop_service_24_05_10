@@ -1,5 +1,6 @@
 package com.example.shop.user;
 
+import com.example.shop.error.DataNotFoundException;
 import com.example.shop.error.SignupEmailDuplicatedException;
 import com.example.shop.error.SignupUsernameDuplicatedException;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +46,11 @@ public class UserService {
         userRepository.save(userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("no such data"))
                 .changeUserBasicInfoEntity(passwordEncoder.encode(password), email, address));
+    }
+
+    public SiteUser getUser(String username) {
+
+        return userRepository.findByUsername(username).orElseThrow(() ->
+                new DataNotFoundException("siteuser no found"));
     }
 }

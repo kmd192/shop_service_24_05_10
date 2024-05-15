@@ -2,49 +2,150 @@
       xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://thymeleaf.org">
 
-<div layout:fragment="content" th:object="${merchandiseCreateForm}" class="container my-3">
+<div layout:fragment="content" class="container my-3">
     <div class="my-3 border-bottom">
         <div>상품등록</div>
     </div>
+    <div class="alert alert-danger" role="alert" th:if="${errors}">
+        <div th:each="error : ${errors}" th:text="${error}"></div>
+    </div>
         <form th:action="@{/merchandise/create}" method="post">
-            <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+            <div class="alert alert-danger" role="alert" th:if="${errors}">
+                <div th:each="error : ${errors}" th:text="${error}"></div>
+            </div>
             <div class="mb-3">
                 <label for="merchandiseName" class="form-label">상품명</label>
-                <input type="text" th:field="*{merchandiseName}" id="merchandiseName" class="form-control">
+                <input type="text" th:value="${merchandiseName}" id="merchandiseName" class="form-control">
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">가격</label>
-                <input type="text" th:field="*{price}" id="price" class="form-control">
+                <input type="text" th:value="${price}" id="price" class="form-control">
             </div>
             <div class="mb-3">
-                <label for="category" class="form-label">카테고리</label>
-                <form class="input-group" id="category">
-                    <select class="form-select" th:name="category" th:value="${param.category}">
-                        <option th:selected="${category == 'NOCATEGORY'}" th:value="NOCATEGORY" selected>선택</option>
-                        <option th:selected="${category == 'TOP'}" th:value="TOP">상의</option>
-                        <option th:selected="${category == 'BOTTOM'}" th:value="BOTTOM">하의</option>
-                        <option th:selected="${category == 'SHOES'}" th:value="SHOES">신발</option>
+                <label for="gender" class="form-label">성별</label>
+                <select class="form-select" th:name="gender" id="gender" th:value="${gender}">
+                    <option th:selected="${gender == ''}" value="" selected>선택</option>
+                    <option th:selected="${gender == 'MALE'}" value="MALE">남성</option>
+                    <option th:selected="${gender == 'FEMALE'}" value="FEMALE">여성</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="clothType" class="form-label">타입</label>
+                    <select class="form-select" th:name="clothType" id="clothType" th:value="${clothType}">
+                        <option th:selected="${clothType == ''}" value="" selected>선택</option>
+                        <option th:selected="${clothType == 'TOP'}" value="TOP">상의</option>
+                        <option th:selected="${clothType == 'BOTTOM'}" value="BOTTOM">하의</option>
+                        <option th:selected="${clothType == 'SHOES'}" value="SHOES">신발</option>
                     </select>
-                </form>
+            </div>
+            <div class="mb-3">
+                <label for="season" class="form-label">계절</label>
+                <select class="form-select" th:name="season" id="season" th:value="${season}">
+                    <option th:selected="${season == ''}" value="" selected>선택</option>
+                    <option th:selected="${season == 'SPRING'}" value="SPRING">봄</option>
+                    <option th:selected="${season == 'SUMMER'}" value="SUMMER">여름</option>
+                    <option th:selected="${season == 'AUTUMN'}" value="AUTUMN">가을</option>
+                    <option th:selected="${season == 'WINTER'}" value="WINTER">겨울</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="size" class="form-label">사이즈</label>
-                <form id="size" class="input-group">
-                    <select th:disabled="${merchandiseCreateForm.category != 'TOP'}" class="form-select" th:name="size" th:value="${param.size}">
-                        <option th:selected="${size == 'S'}" th:value="S" selected>S</option>
-                        <option th:selected="${size == 'M'}" th:value="M">M</option>
-                        <option th:selected="${size == 'L'}" th:value="L">L</option>
-                        <option th:selected="${size == 'XL'}" th:value="XL">XL</option>
-                        <option th:selected="${size == 'XXL'}" th:value="XXL">XXL</option>
+                    <select id="size" class="form-select" th:name="size" th:value="${size}">
+                        <option th:selected="${size == ''}" value="" selected>선택</option>
+                        <option th:selected="${size == 'S'}" value="S">S</option>
+                        <option th:selected="${size == 'M'}" value="M">M</option>
+                        <option th:selected="${size == 'L'}" value="L">L</option>
+                        <option th:selected="${size == 'XL'}" value="XL">XL</option>
+                        <option th:selected="${size == 'XXL'}" value="XXL">XXL</option>
                     </select>
-                </form>
+                    <select disabled hidden id="size2" class="form-select" th:name="size2" th:value="${size2}">
+                        <option th:selected="${size2 == ''}" value="" selected>선택</option>
+                        <option th:selected="${size2 == '240'}" value="240">240</option>
+                        <option th:selected="${size2 == '250'}" value="250">250</option>
+                        <option th:selected="${size2 == '260'}" value="260">260</option>
+                        <option th:selected="${size2 == '270'}" value="270">270</option>
+                        <option th:selected="${size2 == '280'}" value="280">280</option>
+                    </select>
             </div>
             <div class="mb-3">
                 <label for="image" class="form-label">이미지</label>
-                <input type="text" th:field="*{image}" id="image" class="form-control">
+                <input type="text" th:value="${image}" id="image" class="form-control">
             </div>
+            <input type="sumbit" value="등록하기" id="sendRequest" class="btn btn-primary my-2">
         </form>
 </div>
-<script layout:fragment="script" type='text/javascript'>
+<script layout:fragment="script" type="text/javascript">
+$('#sendRequest').click(function(){
+    console.log(document.getElementById("merchandiseName").value);
+    console.log(document.getElementById("price").value);
+    console.log(document.getElementById("gender").value);
+    console.log(document.getElementById("clothType").value);
+    console.log(document.getElementById("season").value);
+    console.log(document.getElementById("size").value);
+    console.log(document.getElementById("size2").value);
+    console.log(document.getElementById("image").value);
+
+    var csrfToken = $('input[name="_csrf"]').attr('value');
+
+    if($('select[name=clothType]').val() == 'SHOES'){
+        var jsonData = {
+            merchandiseName: document.getElementById("merchandiseName").value,
+            price: document.getElementById("price").value,
+            gender: document.getElementById("gender").value,
+            clothType: document.getElementById("clothType").value,
+            season: document.getElementById("season").value,
+            size: '0',
+            size2: document.getElementById("size2").value,
+            image: document.getElementById("image").value
+        };
+    } else {
+        var jsonData = {
+            merchandiseName: document.getElementById("merchandiseName").value,
+            price: document.getElementById("price").value,
+            gender: document.getElementById("gender").value,
+            clothType: document.getElementById("clothType").value,
+            season: document.getElementById("season").value,
+            size: document.getElementById("size").value,
+            size2: '0',
+            image: document.getElementById("image").value
+        };
+    }
+
+    console.log(jsonData);
+
+    $.ajax({
+        method: "POST",
+        url: "/merchandise/create",
+        beforeSend: function(xhr){
+            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(jsonData),
+            success: function(response){
+                console.log(response);
+                alert(response);
+                location.href="/home";
+            },
+            error: function(xhr, status, error){
+                console.error(xhr.responseText);
+            }
+        })
+    });
+
+$('select[name=clothType]').change(function(){
+    if($(this).val() == 'SHOES'){
+        document.getElementById('size').setAttribute('disabled',true);
+        document.getElementById('size').setAttribute('hidden',true);
+         document.getElementById('size2').removeAttribute('disabled',true);
+        document.getElementById('size2').removeAttribute('hidden',true);
+    }
+
+    if($(this).val() != 'SHOES'){
+        document.getElementById('size2').setAttribute('disabled',true);
+        document.getElementById('size2').setAttribute('hidden',true);
+         document.getElementById('size').removeAttribute('disabled',true);
+        document.getElementById('size').removeAttribute('hidden',true);
+    }
+})
 </script>
 </html>
