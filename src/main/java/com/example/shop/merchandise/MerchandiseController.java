@@ -4,6 +4,8 @@ import com.example.shop.user.SiteUser;
 import com.example.shop.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/merchandise")
 public class MerchandiseController {
 
+    private static final Logger log = LoggerFactory.getLogger(MerchandiseController.class);
     private final MerchandiseService merchandiseService;
 
     private final UserService userService;
@@ -36,18 +41,18 @@ public class MerchandiseController {
     public ResponseEntity<?> merchandiseCreate(@Valid @RequestBody MerchandiseCreateForm merchandiseCreateForm, Principal principal, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()){
-            return ResponseEntity.badRequest().body("입력값이 올바르지 않습니다.");
+            List<String> errors = bindingResult.getAllErrors().stream()
+                    .map(error -> error.getDefaultMessage())
+                    .collect(Collectors.toList());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
         }
 
         SiteUser seller = userService.getUser(principal.getName());
 
-        try {
-            merchandiseService.createMerchandise(merchandiseCreateForm.getMerchandiseName(), merchandiseCreateForm.getPrice(),
-                    merchandiseCreateForm.getSize(), merchandiseCreateForm.getImage(), seller);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("상품 생성 중 오류가 발생했습니다.");
-        }
-            return ResponseEntity.ok("상품이 성공적으로 등록되었습니다.");
+        merchandiseService.createMerchandise(merchandiseCreateForm.getMerchandiseName(), merchandiseCreateForm.getPrice(),
+                merchandiseCreateForm.getSize(), merchandiseCreateForm.getImage(), seller);
+
+        return ResponseEntity.ok("상품이 성공적으로 등록되었습니다.");
     }
 
 }
