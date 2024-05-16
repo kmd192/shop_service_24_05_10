@@ -19,4 +19,5 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
+
 }

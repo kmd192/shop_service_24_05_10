@@ -1,7 +1,7 @@
 package com.example.shop.merchandise;
 
+import com.example.shop.category.CategoryService;
 import com.example.shop.user.SiteUser;
-import com.example.shop.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,21 +18,38 @@ public class MerchandiseService {
 
     private final MerchandiseRepository merchandiseRepository;
 
-    private final UserRepository userRepository;
+    private final CategoryService categoryService;
 
-    public Merchandise createMerchandise(String merchandiseName, long price,
-                                         String size, String image, SiteUser seller){
-        Merchandise merchandise = Merchandise.builder()
-                .merchandiseName(merchandiseName)
-                .price(price)
-                .size(size)
-                .image(image)
-                .seller(seller)
-                .build();
+    public Merchandise createMerchandise(String merchandiseName, long price, String size, String size2,
+                                         String image, String gender, String clothType, String season,
+                                         SiteUser seller) {
+        if (size2.equals(" ")) {
+            Merchandise merchandise = Merchandise.builder()
+                    .merchandiseName(merchandiseName)
+                    .price(price)
+                    .size(size)
+                    .image(image)
+                    .category(categoryService.createCategory(gender, clothType, season))
+                    .seller(seller)
+                    .build();
 
-        merchandiseRepository.save(merchandise);
+            merchandiseRepository.save(merchandise);
+            return merchandise;
 
-        return merchandise;
+        } else if (size.equals(" ")) {
+            Merchandise merchandise = Merchandise.builder()
+                    .merchandiseName(merchandiseName)
+                    .price(price)
+                    .size(size2)
+                    .image(image)
+                    .category(categoryService.createCategory(gender, clothType, season))
+                    .seller(seller)
+                    .build();
+
+            merchandiseRepository.save(merchandise);
+            return merchandise;
+        }
+        return null;
     }
 
     public void changeMerchandiseInfo(long id, String merchandiseName, long price,

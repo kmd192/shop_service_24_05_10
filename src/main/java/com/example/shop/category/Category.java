@@ -2,11 +2,19 @@ package com.example.shop.category;
 
 import com.example.shop.merchandise.Merchandise;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Builder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Category {
 
     @Id
@@ -20,5 +28,5 @@ public class Category {
     private String season;
 
     @OneToMany(mappedBy = "category")
-    private List<Merchandise> merchandiseList = new ArrayList<>();
+    private final List<Merchandise> merchandiseList = new ArrayList<>();
 }

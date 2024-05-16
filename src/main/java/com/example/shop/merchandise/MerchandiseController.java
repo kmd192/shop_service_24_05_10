@@ -50,7 +50,9 @@ public class MerchandiseController {
         SiteUser seller = userService.getUser(principal.getName());
 
         merchandiseService.createMerchandise(merchandiseCreateForm.getMerchandiseName(), merchandiseCreateForm.getPrice(),
-                merchandiseCreateForm.getSize(), merchandiseCreateForm.getImage(), seller);
+                merchandiseCreateForm.getSize(), merchandiseCreateForm.getSize2(), merchandiseCreateForm.getImage(),
+                merchandiseCreateForm.getGender(), merchandiseCreateForm.getClothType(), merchandiseCreateForm.getSeason(),
+                seller);
 
         return ResponseEntity.ok("상품이 성공적으로 등록되었습니다.");
     }

@@ -8,4 +8,8 @@ import org.springframework.stereotype.Service;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+
+    public Category createCategory(String gender, String clothType, String season) {
+        return categoryRepository.findByGenderAndClothTypeAndSeason(gender, clothType, season);
+    }
 }

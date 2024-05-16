@@ -40,20 +40,20 @@ public class MerchandiseRepositoryTests {
 
     private void createSampleData(){
         UserRepositoryTests.createSampleData(userService);
-        merchandiseService.createMerchandise("티셔츠1", 15000L, "105", "", userRepository.findByUsername("user1").get());
-        merchandiseService.createMerchandise("신발1", 20000L, "275", "", userRepository.findByUsername("user1").get());
+        merchandiseService.createMerchandise("티셔츠1", 15000L, "XL", " ", "image", "남성", "상의", "봄", userRepository.findByUsername("user1").get());
+        merchandiseService.createMerchandise("신발1", 20000L, " ", "260", "image", "남성", "신발", "봄", userRepository.findByUsername("user1").get());
     }
 
     public static void createSampleData(MerchandiseService merchandiseService, UserRepository userRepository){
-        merchandiseService.createMerchandise("티셔츠1", 15000L, "105", "", userRepository.findByUsername("user1").get());
-        merchandiseService.createMerchandise("신발1", 20000L, "275", "", userRepository.findByUsername("user1").get());
+        merchandiseService.createMerchandise("티셔츠1", 15000L, "XL", " ", "image", "남성", "상의", "봄", userRepository.findByUsername("user1").get());
+        merchandiseService.createMerchandise("신발1", 20000L, " ", "260", "image", "남성", "신발", "봄", userRepository.findByUsername("user1").get());
     }
 
     @Test
     void 저장(){
 
-        merchandiseService.createMerchandise("티셔츠2", 15000L, "105", "", userRepository.findByUsername("user1").get());
-        merchandiseService.createMerchandise("신발2", 20000L, "275", "", userRepository.findByUsername("user1").get());
+        merchandiseService.createMerchandise("티셔츠2", 15000L, "XXL", " ", "image", "남성", "상의", "가을", userRepository.findByUsername("user1").get());
+        merchandiseService.createMerchandise("신발2", 20000L, " ", "270", "image", "남성", "신발", "가을", userRepository.findByUsername("user1").get());
 
         assertThat(merchandiseRepository.count()).isEqualTo(4L);
     }
