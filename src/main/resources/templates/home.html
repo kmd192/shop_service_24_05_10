@@ -6,7 +6,7 @@
     <div class="row my-3">
         <div class="col-3">
             <form class="input-group">
-                <select class="form-select" th:name="sortList" th:value="${param.sortList}">
+                <select class="form-select" th:name="sortList" th:value="${sortList}">
                     <option th:selected="${sortList == 'NEW'}" th:value="NEW" th:text="최신순" selected></option>
                     <option th:selected="${sortList == 'OLD'}" th:value="OLD">등록순</option>
                     <option th:selected="${sortList == 'CHEAP'}" th:value="CHEAP">낮은가격순</option>
@@ -18,16 +18,16 @@
         <div class="col-1"></div>
         <div class="col-8">
             <form class="input-group">
-                <input type="text" name="kw" class="form-control" th:value="${param.value}" placeholder="검색어를 입력해주세요.">
-                <button class="btn btn-outline-secondary" type="submit" style="margin-top:0;">검색</button>
+                <input type="text" onclick="onClick()" id="kw" class="form-control" th:value="${kw}" placeholder="검색어를 입력해주세요.">
+                <button onclick="onClick2()" class="btn btn-outline-secondary" type="submit" style="margin-top:0;">검색</button>
             </form>
         </div>
     </div>
     <div class="row my-3">
         <div class="col-1">
             <form class="input-group">
-                <select class="form-select" name="sortGender" th:value="${param.sortGender}">
-                    <option th:selected="${sortGender == 'NOGENDER'}" th:value="NOGENDER" th:text="성별" selected></option>
+                <select class="form-select" name="sortGender" th:value="${sortGender}">
+                    <option th:selected="${sortGender == null}" th:value=null th:text="성별" selected></option>
                     <option th:selected="${sortGender == 'MALE'}" th:value="MALE" th:text="남성"></option>
                     <option th:selected="${sortGender == 'FEMALE'}" th:value="FEMALE" th:text="여성"></option>
                 </select>
@@ -35,8 +35,8 @@
         </div>
         <div class="col-1">
             <form class="input-group">
-                <select class="form-select" name="sortType" th:value="${param.sortType}">
-                    <option th:selected="${sortType == 'NOTYPE'}" th:value="NOTYPE" th:text="타입" selected></option>
+                <select class="form-select" name="sortType" th:value="${sortType}">
+                    <option th:selected="${sortType == null}" th:value=null th:text="타입" selected></option>
                     <option th:selected="${sortType == 'TOP'}" th:value="TOP" th:text="상의"></option>
                     <option th:selected="${sortType == 'BOTTOM'}" th:value="BOTTOM" th:text="하의"></option>
                     <option th:selected="${sortType == 'SHOES'}" th:value="SHOES" th:text="신발"></option>
@@ -45,8 +45,8 @@
         </div>
         <div class="col-1">
             <form class="input-group">
-                <select class="form-select" name="sortSeason" th:value="${param.sortSeason}">
-                    <option th:selected="${sortSeason == 'NOSEASON'}" th:value="NOSEASON" th:text="계절" selected></option>
+                <select class="form-select" name="sortSeason" th:value="${sortSeason}">
+                    <option th:selected="${sortSeason == null}" th:value=null th:text="계절" selected></option>
                     <option th:selected="${sortSeason == 'SPRING'}" th:value="SPRING" th:text="봄"></option>
                     <option th:selected="${sortSeason == 'SUMMER'}" th:value="SUMMER" th:text="여름"></option>
                     <option th:selected="${sortSeason == 'AUTUMN'}" th:value="AUTUMN" th:text="가을"></option>
@@ -56,75 +56,75 @@
         </div>
     </div>
 <h2>SHOPPING MALL</h2>
-    <table class="table">
-        <thead class="table-dark">
-            <tr class="text-center">
-                <th style="width:5%">번호</th>
-                <th style="width:35%">제품</th>
-                <th style="width:20%">제품명</th>
-
-
-                <th style="width:10%">가격</th>
-                <th style="width:10%">판매자</th>
-                <th style="width:10%">좋아요</th>
-            </tr>
-        </thead>
-        <tbody>
-        <tr class="text-center" th:each="merchandise, loop : ${paging}">
-            <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
-            <td>
-                <a th:href="@{|/merchandise/detail/${merchandise.id}|}">image</a>
-            </td>
-            <td class="text-start">
-                <a th:href="@{|/merchandise/detail/${merchandise.id}|}" th:text="${merchandise.merchandiseName}"></a>
-                <span class="text-danger small ms-2"
-                    th:if="${#lists.size(merchandise.reviewList) > 0}"
-                    th:text="${#lists.size(merchandise.reviewList)}">
-                </span>
-            </td>
-            <td th:text="${merchandise.price}"></td>
-            <td th:text="${merchandise.seller.username}"></td>
-            <td>like</td>
-        </tr>
-        </tbody>
-    </table>
-    <div th:if="${paging != null and !paging.isEmpty()}">
-        <ul class ="pagination justify-content-center">
-            <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{|/home?page=${paging.number-1}&kw=${kw}|}">
-                <span>이전</span>
-                </a>
-            </li>
-            <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                th:if="${page >= paging.number-5 and page <= paging.number+5}"
-                th:classappend="${page == paging.number} ? 'active'"
-                class="page-item">
-                <a th:text="${page + 1}" class="page-link" th:href="@{|/home?page=${page}&kw=${kw}|}"></a>
-            </li>
-            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-                <a class="page-link" th:href="@{|/home?page=${paging.number+1}&kw=${kw}|}">
-                    <span>다음</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+    <div id="merchandise-list" th:replace="fragments/merchandise-list :: merchandise-list"></div>
     <a th:href="@{merchandise/create}" class="btn btn-primary">상품 등록하기</a>
 </div>
 <script layout:fragment="script" type='text/javascript'>
+function onClick(){
+    event.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: "/home",
+            dataType: "json",
+            data: {
+                "kw": $("#kw").val(),
+                "sortList": $("select[name=sortList] option:selected").val(),
+                "sortGender": $("select[name=sortGender] option:selected").val(),
+                "sortType": $("select[name=sortType] option:selected").val(),
+                "sortSeason": $("select[name=sortSeason] option:selected").val()
+            },
+            success: function(response){
+                $('#merchandise-list').html(data.html);
+            },
+            error: function(xhr, status. error){
+                console.error(error);
+            }
+        })
+    }
+
+
+function onClick2(){
+    event.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: "/home",
+            dataType: "json",
+            data: {
+                "kw": $("#kw").val(),
+                "sortList": $("select[name=sortList] option:selected").val(),
+                "sortGender": $("select[name=sortGender] option:selected").val(),
+                "sortType": $("select[name=sortType] option:selected").val(),
+                "sortSeason": $("select[name=sortSeason] option:selected").val()
+            },
+            success: function(response){
+                $('#merchandise-list').html(data.html);
+            },
+            error: function(xhr, status. error){
+                console.error(error);
+            }
+        })
+    }
+
 $("select[name=sortList]").change(function(){
     $.ajax({
         type: "GET",
         url: "/home",
         dataType: "json",
         data: {
+            "kw": $("#kw").val(),
             "sortList": $("select[name=sortList] option:selected").val(),
             "sortGender": $("select[name=sortGender] option:selected").val(),
             "sortType": $("select[name=sortType] option:selected").val(),
             "sortSeason": $("select[name=sortSeason] option:selected").val()
+        },
+        success: function(response){
+            $('#merchandise-list').html(data.html);
+        },
+        error: function(xhr, status. error){
+            console.error(error);
         }
-        })
-    });
+    })
+});
 
 $("select[name=sortGender]").change(function(){
     $.ajax({
@@ -132,13 +132,20 @@ $("select[name=sortGender]").change(function(){
         url: "/home",
         dataType: "json",
         data: {
-             "sortList": $("select[name=sortList] option:selected").val(),
+            "kw": $("#kw").val(),
+            "sortList": $("select[name=sortList] option:selected").val(),
             "sortGender": $("select[name=sortGender] option:selected").val(),
             "sortType": $("select[name=sortType] option:selected").val(),
             "sortSeason": $("select[name=sortSeason] option:selected").val()
+        },
+        success: function(response){
+            $('#merchandise-list').html(data.html);
+        },
+        error: function(xhr, status. error){
+            console.error(error);
         }
-        })
-    });
+    })
+});
 
 $("select[name=sortType]").change(function(){
     $.ajax({
@@ -146,13 +153,20 @@ $("select[name=sortType]").change(function(){
         url: "/home",
         dataType: "json",
         data: {
+            "kw": $("#kw").val(),
             "sortList": $("select[name=sortList] option:selected").val(),
             "sortGender": $("select[name=sortGender] option:selected").val(),
             "sortType": $("select[name=sortType] option:selected").val(),
             "sortSeason": $("select[name=sortSeason] option:selected").val()
+        },
+        success: function(response){
+            $('#merchandise-list').html(data.html);
+        },
+        error: function(xhr, status. error){
+            console.error(error);
         }
-        })
-    });
+    })
+});
 
 $("select[name=sortSeason]").change(function(){
     $.ajax({
@@ -160,13 +174,20 @@ $("select[name=sortSeason]").change(function(){
         url: "/home",
         dataType: "json",
         data: {
+            "kw": $("#kw").val(),
             "sortList": $("select[name=sortList] option:selected").val(),
             "sortGender": $("select[name=sortGender] option:selected").val(),
             "sortType": $("select[name=sortType] option:selected").val(),
             "sortSeason": $("select[name=sortSeason] option:selected").val()
+        },
+        success: function(response){
+            $('#merchandise-list').html(data.html);
+        },
+        error: function(xhr, status. error){
+            console.error(error);
         }
-        })
-    });
+    })
+});
 </script>
 </html>
 

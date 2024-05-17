@@ -25,7 +25,7 @@ public class CategoryRepositoryTests {
     }
 
     @Test
-    void 저장() {
+    void 셋팅() {
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
@@ -34,15 +34,15 @@ public class CategoryRepositoryTests {
                     String clothType = "";
                     String season = "";
 
-                    if(g==0){ gender = "남성";};
-                    if(g==1){ gender = "여성";};
-                    if(j==0){ clothType = "상의";};
-                    if(j==1){ clothType = "하의";};
-                    if(j==2){ clothType = "신발";};
-                    if(i==0){ season = "봄";};
-                    if(i==1){ season = "여름";};
-                    if(i==2){ season = "가을";};
-                    if(i==3){ season = "겨울";};
+                    if(g==0){ gender = "MALE";};
+                    if(g==1){ gender = "FEMALE";};
+                    if(j==0){ clothType = "TOP";};
+                    if(j==1){ clothType = "BOTTOM";};
+                    if(j==2){ clothType = "SHOES";};
+                    if(i==0){ season = "SPRING";};
+                    if(i==1){ season = "SUMMER";};
+                    if(i==2){ season = "AUTUMN";};
+                    if(i==3){ season = "WINTER";};
 
                     Category category = Category.builder()
                             .gender(gender)

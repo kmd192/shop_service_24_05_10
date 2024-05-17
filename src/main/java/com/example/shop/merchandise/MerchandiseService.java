@@ -1,5 +1,6 @@
 package com.example.shop.merchandise;
 
+import com.example.shop.category.Category;
 import com.example.shop.category.CategoryService;
 import com.example.shop.user.SiteUser;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class MerchandiseService {
                     .price(price)
                     .size(size)
                     .image(image)
-                    .category(categoryService.createCategory(gender, clothType, season))
+                    .category(categoryService.findCategory(gender, clothType, season))
                     .seller(seller)
                     .build();
 
@@ -42,7 +43,7 @@ public class MerchandiseService {
                     .price(price)
                     .size(size2)
                     .image(image)
-                    .category(categoryService.createCategory(gender, clothType, season))
+                    .category(categoryService.findCategory(gender, clothType, season))
                     .seller(seller)
                     .build();
 
@@ -59,18 +60,38 @@ public class MerchandiseService {
                 .changeMerchandiseInfoEntity(merchandiseName, price, size, image));
     }
 
-    public Page<Merchandise> getMerchandiseList(String kw, int page) {
+    public Page<Merchandise> getMerchandiseList(String sortList, String sortGender, String sortType,
+                                                String sortSeason, String kw, int page) {
         List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("id"));
+        Category category = categoryService.findCategory(sortGender, sortType, sortSeason);
+
+        if (sortList.equals("NEW")){
+            sorts.add(Sort.Order.desc("id"));
+        } else if(sortList.equals("OLD")){
+            sorts.add(Sort.Order.asc("id"));
+        } else if(sortList.equals("CHEAP")){
+            sorts.add(Sort.Order.asc("price"));
+        } else if(sortList.equals("EXPENSIVE")){
+            sorts.add(Sort.Order.desc("price"));
+        } else if(sortList.equals("LIKE")){
+            sorts.add(Sort.Order.asc("like"));
+        }
 
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 
-        if(kw == null || kw.trim().length() == 0){
+        if(kw.trim().isEmpty() && category != null){
+            return merchandiseRepository.findByCategory(category, pageable);
+        } else if (kw.trim().isEmpty() && category == null) {
             return merchandiseRepository.findAll(pageable);
         }
 
-        return merchandiseRepository.findDistinctByMerchandiseNameContainsOrSeller_usernameContainsOrReviewList_reviewContainsOrReviewList_Reviewer_usernameContains
-                (kw, kw, kw, kw, pageable);
+        if(category != null) {
+            return merchandiseRepository.findDistinctByCategoryAndMerchandiseNameContainsOrSeller_usernameContainsOrReviewList_reviewContainsOrReviewList_Reviewer_usernameContains
+                    (category, kw, kw, kw, kw, pageable);
+        } else {
+            return merchandiseRepository.findDistinctByMerchandiseNameContainsOrSeller_usernameContainsOrReviewList_reviewContainsOrReviewList_Reviewer_usernameContains
+                    (kw, kw, kw, kw, pageable);
+        }
 
     }
 }

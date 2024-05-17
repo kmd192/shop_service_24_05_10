@@ -46,7 +46,7 @@
             <div class="mb-3">
                 <label for="size" class="form-label">사이즈</label>
                     <select id="size" class="form-select" th:name="size" th:value="${size}">
-                        <option th:selected="${size == ' '}" value=" " selected>선택</option>
+                        <option th:selected="${size == ' '}" value="" selected>선택</option>
                         <option th:selected="${size == 'S'}" value="S">S</option>
                         <option th:selected="${size == 'M'}" value="M">M</option>
                         <option th:selected="${size == 'L'}" value="L">L</option>
@@ -54,7 +54,7 @@
                         <option th:selected="${size == 'XXL'}" value="XXL">XXL</option>
                     </select>
                     <select disabled hidden id="size2" class="form-select" th:name="size2" th:value="${size2}">
-                        <option th:selected="${size2 == ' '}" value=" " selected>선택</option>
+                        <option th:selected="${size2 == ' '}" value="" selected>선택</option>
                         <option th:selected="${size2 == '240'}" value="240">240</option>
                         <option th:selected="${size2 == '250'}" value="250">250</option>
                         <option th:selected="${size2 == '260'}" value="260">260</option>
@@ -89,8 +89,8 @@ $('#sendRequest').click(function(){
             gender: document.getElementById("gender").value,
             clothType: document.getElementById("clothType").value,
             season: document.getElementById("season").value,
-            size: ' ',
-            size2: '',
+            size: document.getElementById("size").value,
+            size2: ' ',
             image: document.getElementById("image").value
         }
     } else if($('select[name=clothType]').val() == 'SHOES'){
@@ -152,15 +152,15 @@ $('#sendRequest').click(function(){
 
 $('select[name=clothType]').change(function(){
     if($(this).val() == 'SHOES'){
-        document.getElementById('size').setAttribute('disabled');
-        document.getElementById('size').setAttribute('hidden');
+        document.getElementById('size').setAttribute('disabled', true);
+        document.getElementById('size').setAttribute('hidden', true);
          document.getElementById('size2').removeAttribute('disabled');
         document.getElementById('size2').removeAttribute('hidden');
     }
 
     if($(this).val() != 'SHOES'){
-        document.getElementById('size2').setAttribute('disabled');
-        document.getElementById('size2').setAttribute('hidden');
+        document.getElementById('size2').setAttribute('disabled', true);
+        document.getElementById('size2').setAttribute('hidden', true);
          document.getElementById('size').removeAttribute('disabled');
         document.getElementById('size').removeAttribute('hidden');
     }
