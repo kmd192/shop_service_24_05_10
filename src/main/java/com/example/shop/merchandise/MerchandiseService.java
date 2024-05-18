@@ -105,4 +105,8 @@ public class MerchandiseService {
         return merchandiseRepository.findDistinctByCategoryInAndMerchandiseNameContainsOrSeller_usernameContainsOrReviewList_reviewContainsOrReviewList_Reviewer_usernameContains
                 (category, kw, kw, kw, kw, pageable);
     }
+
+    public Merchandise getMerchandise(long id) {
+        return merchandiseRepository.findById(id).get();
+    }
 }
