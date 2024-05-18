@@ -1,36 +1,38 @@
-<html layout:decorate="~{layout}"
+<html lang="ko"
       xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://thymeleaf.org">
 
-<div th:fragment="merchandise-list">
+<div th:fragment="merchandise-list" id="merchandise-list">
     <table class="table">
         <thead class="table-dark">
-            <tr class="text-center">
-                <th style="width:5%">번호</th>
-                <th style="width:35%">제품</th>
-                <th style="width:20%">제품명</th>
-                <th style="width:10%">가격</th>
-                <th style="width:10%">판매자</th>
-                <th style="width:10%">좋아요</th>
-            </tr>
+        <tr class="text-center">
+            <th style="width:5%">번호</th>
+            <th style="width:35%">제품</th>
+            <th style="width:20%">제품명</th>
+            <th style="width:10%">가격</th>
+            <th style="width:10%">판매자</th>
+            <th style="width:10%">좋아요</th>
+        </tr>
         </thead>
         <tbody>
-            <tr class="text-center" th:each="merchandise, loop : ${paging}">
-                <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
-                <td>
-                    <a th:href="@{|/merchandise/detail/${merchandise.id}|}">image</a>
-                </td>
-                <td class="text-start">
-                    <a th:href="@{|/merchandise/detail/${merchandise.id}|}" th:text="${merchandise.merchandiseName}"></a>
-                    <span class="text-danger small ms-2"
-                          th:if="${#lists.size(merchandise.reviewList) > 0}"
-                          th:text="${#lists.size(merchandise.reviewList)}">
+
+
+        <tr class="text-center" th:each="merchandise, loop : ${paging}">
+            <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+            <td>
+                <a th:href="@{|/merchandise/detail/${merchandise.id}|}">image</a>
+            </td>
+            <td class="text-start">
+                <a th:href="@{|/merchandise/detail/${merchandise.id}|}" th:text="${merchandise.merchandiseName}"></a>
+                <span class="text-danger small ms-2"
+                      th:if="${#lists.size(merchandise.reviewList) > 0}"
+                      th:text="${#lists.size(merchandise.reviewList)}">
                     </span>
-                </td>
-                <td th:text="${merchandise.price}"></td>
-                <td th:text="${merchandise.seller.username}"></td>
-                <td>like</td>
-            </tr>
+            </td>
+            <td th:text="${merchandise.price}"></td>
+            <td th:text="${merchandise.seller.username}"></td>
+            <td>like</td>
+        </tr>
         </tbody>
     </table>
     <div th:if="${!paging.isEmpty()}">

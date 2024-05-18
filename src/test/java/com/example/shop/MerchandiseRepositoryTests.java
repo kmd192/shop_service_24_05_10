@@ -34,47 +34,101 @@ public class MerchandiseRepositoryTests {
     private CategoryService categoryService;
 
     @BeforeEach
-    void beforeEach(){
+    void beforeEach() {
         clearData();
         createSampleData();
 
 
     }
 
-    private void clearData(){
+    private void clearData() {
         UserRepositoryTests.clearAllData(userRepository, merchandiseRepository);
     }
 
-    private void createSampleData(){
+    private void createSampleData() {
         UserRepositoryTests.createSampleData(userService);
         merchandiseService.createMerchandise("티셔츠1", 15000L, "XL", " ", "image", "MALE", "TOP", "SPRING", userRepository.findByUsername("user1").get());
         merchandiseService.createMerchandise("신발1", 20000L, " ", "260", "image", "MALE", "SHOES", "SPRING", userRepository.findByUsername("user1").get());
     }
 
-    public static void createSampleData(MerchandiseService merchandiseService, UserRepository userRepository){
+    public static void createSampleData(MerchandiseService merchandiseService, UserRepository userRepository) {
         merchandiseService.createMerchandise("티셔츠1", 15000L, "XL", " ", "image", "MALE", "TOP", "SPRING", userRepository.findByUsername("user1").get());
         merchandiseService.createMerchandise("신발1", 20000L, " ", "260", "image", "MALE", "SHOES", "SPRING", userRepository.findByUsername("user1").get());
     }
 
     @Test
-    void 셋팅(){
+    void 셋팅() {
         boolean run = true;
 
-        if(run == false) return;
+        if (run == false) return;
 
-        IntStream.rangeClosed(3,300).forEach(i -> {
-            Merchandise m = Merchandise.builder()
-                    .merchandiseName("티셔츠%d".formatted(i))
-                    .price(10000L)
-                    .image("image")
-                    .size("XL")
-                    .category(categoryService.findCategory("MALE","TOP", "SPRING"))
-                    .seller(userRepository.findByUsername("user1").get())
-                    .build();
+        IntStream.rangeClosed(3, 12).forEach(id -> {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 3; j++) {
+                    for (int g = 0; g < 2; g++) {
+                        String gender = "";
+                        String clothType = "";
+                        String season = "";
+                        String mName = "";
+                        int mNum = 0;
 
-            merchandiseRepository.save(m);
+                        if (g == 0) {
+                            gender = "MALE";
+                            mNum = 1;
+                        }
+                        if (g == 1) {
+                            gender = "FEMALE";
+                            mNum = 2;
+                        }
+                        if (j == 0) {
+                            clothType = "TOP";
+                            mName = "티셔츠";
+                            mNum = 4;
+                        }
+                        if (j == 1) {
+                            clothType = "BOTTOM";
+                            mName = "반바지";
+                            mNum = 5;
+                        }
+                        if (j == 2) {
+                            clothType = "SHOES";
+                            mName = "신발";
+                            mNum = 6;
+                        }
+                        if (i == 0) {
+                            season = "SPRING";
+                            mNum = 7;
+                        }
+                        if (i == 1) {
+                            season = "SUMMER";
+                            mNum = 8;
+                        }
+                        if (i == 2) {
+                            season = "AUTUMN";
+                            mNum = 9;
+                        }
+                        if (i == 3) {
+                            season = "WINTER";
+                            mNum = 10;
+                        }
+
+                        Merchandise m = Merchandise.builder()
+                                .merchandiseName("%s%d".formatted(mName,mNum+id))
+                                .price(10000L)
+                                .image("image")
+                                .size("XL")
+                                .category(categoryService.findCategory(gender, clothType, season).get(0))
+                                .seller(userRepository.findByUsername("user1").get())
+                                .build();
+
+                        merchandiseRepository.save(m);
+                    }
+                }
+            }
         });
+        assertThat(merchandiseRepository.count()).isEqualTo(242);
     }
+
 
     @Test
     void 저장(){
