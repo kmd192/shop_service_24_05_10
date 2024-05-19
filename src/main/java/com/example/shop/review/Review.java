@@ -3,10 +3,18 @@ package com.example.shop.review;
 import com.example.shop.merchandise.Merchandise;
 import com.example.shop.user.SiteUser;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class Review {
 
     @Id

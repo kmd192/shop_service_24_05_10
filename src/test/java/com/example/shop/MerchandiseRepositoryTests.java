@@ -6,6 +6,7 @@ import com.example.shop.merchandise.MerchandiseRepository;
 import com.example.shop.merchandise.MerchandiseService;
 import com.example.shop.user.UserRepository;
 import com.example.shop.user.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,7 +33,7 @@ public class MerchandiseRepositoryTests {
     @Autowired
     private CategoryService categoryService;
 
-    /*@BeforeEach
+    @BeforeEach
     void beforeEach() {
         clearData();
         createSampleData();
@@ -53,7 +54,7 @@ public class MerchandiseRepositoryTests {
     public static void createSampleData(MerchandiseService merchandiseService, UserRepository userRepository) {
         merchandiseService.createMerchandise("티셔츠1", 15000L, "XL", " ", "image", "MALE", "TOP", "SPRING", userRepository.findByUsername("user1").get());
         merchandiseService.createMerchandise("신발1", 20000L, " ", "260", "image", "MALE", "SHOES", "SPRING", userRepository.findByUsername("user1").get());
-    }*/
+    }
 
     @Test
     void 셋팅() {
@@ -128,13 +129,13 @@ public class MerchandiseRepositoryTests {
     }
 
 
-    /*@Test
+    @Test
     void 저장(){
 
-        merchandiseService.createMerchandise("티셔츠2", 15000L, "XXL", " ", , "MALE", "TOP", "AUTUMN", userRepository.findByUsername("user1").get());
-        merchandiseService.createMerchandise("신발2", 20000L, " ", "270", , "MALE", "SHOES", "AUTUMN", userRepository.findByUsername("user1").get());
+        merchandiseService.createMerchandise("티셔츠2", 15000L, "XXL", " ", "image", "MALE", "TOP", "AUTUMN", userRepository.findByUsername("user1").get());
+        merchandiseService.createMerchandise("신발2", 20000L, " ", "270", "image", "MALE", "SHOES", "AUTUMN", userRepository.findByUsername("user1").get());
 
         assertThat(merchandiseRepository.count()).isEqualTo(4L);
-    }*/
+    }
 
 }

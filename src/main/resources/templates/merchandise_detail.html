@@ -1,10 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html layout:decorate="~{layout}"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-</body>
-</html>
+<div layout:fragment="content" class="container min-vh-100 my-3">
+    <br>
+    <div th:text="${merchandise.merchandiseName}" th:style="'font-size: 24px;'"></div>
+    <br><br>
+    <table height="300" class="table border border-2 border-dark table-bordered">
+        <thead>
+        <tr class="text-center">
+            <td width="50%" rowspan="8" colspan="8" th:text="${merchandise.image}"></td>
+            <td rowspan="2" colspan="8" th:text="|판매자: ${merchandise.seller.username}|"></td>
+        </tr>
+        <tr></tr>
+        <tr class="text-center">
+            <td rowspan="2" colspan="8" th:text="|가격: ${merchandise.price}|"></td>
+        </tr>
+        <tr></tr>
+        <tr class="text-center">
+            <td rowspan="2" colspan="8" th:text="|사이즈: ${merchandise.size}|"></td>
+        </tr>
+        <tr></tr>
+        <tr class="text-center">
+            <td rowspan="2" colspan="8">
+                <a href="javascript:void(0);" class="btn btn-sm btn-outline-secondary"
+                   th:data-uri="@{|/merchandise/vote/${merchandise.id}|}">
+                    추천
+                    <span class="badge rounded-pill bg-success" th:text="${#lists.size(merchandise.like)}"></span>
+                </a>
+            </td>
+        </tr>
+        <tr></tr>
+        <tr class="text-center">
+            <td rowspan="2" colspan="8" th:text="|${merchandise.category.gender} / ${merchandise.category.clothType} / ${merchandise.category.season}|"></td>
+        </tr>
+        </thead>
+    </table>
+    <h5 class="border-bottom my-3 py-2"
+        th:text="|${#lists.size(merchandise.reviewList)}개의 리뷰가 있습니다.|"></h5>
+    <div class="card my-3" th:each="review : ${merchandise.reviewList}">
+        <div class="card-text" style="white-space: pre-line;" th:text="${review.review}"></div>
+        <div class="d-flex justify-content-end">
+            <div th:if="${review.modifyDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                <div class="mb-2">modified at</div>
+                <div th:text="${#temporals.format(review.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
+            </div>
+            <div class="badge bg-light text-dark p-2 text-start">
+                <div class="mb-2">
+                    <span th:text="${review.reviewer?.username}"></span>
+                </div>
+                <div th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+            </div>
+        </div>
+        <div class="my=3">
+            <a th:href="@{|/review/modify/${review.id}|}" class="btn btn-sm btn-outline-secondary"
+               sec:authorize="isAuthenticated()"
+               th:if="${review.reviewer != null and #authentication.getPrincipal()
+                        .getUsername() == review.reviewer.username}"
+               th:text="수정"></a>
+            <a href="javascript:void(0);" class="delete btn btn-sm btn-outline-secondary"
+               th:data-uri="@{|/review/delete/${review.id}|}"
+               sec:authorize="isAuthenticated()"
+               th:if="${review.reviewer != null and #authentication.getPrincipal()
+                        .getUsername() == review.reviewer.username}"
+               th:text="삭제"></a>
+        </div>
+    </div>
+    <form th:action="@{|/review/create/${merchandise.id}|}" th:object="${reviewForm}" method="post" class="my-3">
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" rows="10" class="form-control"></textarea>
+        <textarea sec:authorize="isAuthenticated()" th:field="*{content}" rows="10" class="form-control"></textarea>
+        <input type="submit" value="답변등록" class="btn btn-primary my-2">
+    </form>
+</div>
+<script layout:fragmnet="script" type="text/javascript">
+const delete_elements = document.getElementsByClassName("delete");
+Array.form(delete_elements).forEach(function(element){
+    element.addEventListener('click', function(){
+        if(confirm("정말로 삭제하시겠습니까?")){
+            location.href = this.dataset.uri;
+        }
+    })
+})
+</script>

@@ -22,7 +22,7 @@ public class MerchandiseService {
     private final CategoryService categoryService;
 
     public Merchandise createMerchandise(String merchandiseName, long price, String size, String size2,
-                                         byte[] image, String gender, String clothType, String season,
+                                         String image, String gender, String clothType, String season,
                                          SiteUser seller) {
         if (size2.equals(" ")) {
             Merchandise merchandise = Merchandise.builder()
@@ -54,7 +54,7 @@ public class MerchandiseService {
     }
 
     public void changeMerchandiseInfo(long id, String merchandiseName, long price,
-                                      String size, byte[] image){
+                                      String size, String image){
         merchandiseRepository.save(merchandiseRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("no such data"))
                 .changeMerchandiseInfoEntity(merchandiseName, price, size, image));
@@ -104,5 +104,9 @@ public class MerchandiseService {
         System.out.println("findBykw");
         return merchandiseRepository.findDistinctByCategoryInAndMerchandiseNameContainsOrSeller_usernameContainsOrReviewList_reviewContainsOrReviewList_Reviewer_usernameContains
                 (category, kw, kw, kw, kw, pageable);
+    }
+
+    public Merchandise getMerchandise(long id) {
+        return merchandiseRepository.findById(id).get();
     }
 }
