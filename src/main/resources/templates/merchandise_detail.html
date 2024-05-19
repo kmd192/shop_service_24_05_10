@@ -10,23 +10,23 @@
         <thead>
         <tr class="text-center">
             <td width="50%" rowspan="8" colspan="8" th:text="${merchandise.image}"></td>
-            <td rowspan="2" colspan="8" th:text="${merchandise.seller.username}"></td>
+            <td rowspan="2" colspan="8" th:text="|판매자: ${merchandise.seller.username}|"></td>
         </tr>
         <tr></tr>
         <tr class="text-center">
-            <td rowspan="2" colspan="8" th:text="${merchandise.price}"></td>
+            <td rowspan="2" colspan="8" th:text="|가격: ${merchandise.price}|"></td>
         </tr>
         <tr></tr>
         <tr class="text-center">
-            <td rowspan="2" colspan="8" th:text="${merchandise.size}"></td>
+            <td rowspan="2" colspan="8" th:text="|사이즈: ${merchandise.size}|"></td>
         </tr>
         <tr></tr>
         <tr class="text-center">
-            <td rowspan="2" colspan="8" th:text="${merchandise.like}"></td>
+            <td rowspan="2" colspan="8" th:text="|좋아요: ${merchandise.like.size()}|"></td>
         </tr>
         <tr></tr>
         <tr class="text-center">
-            <td rowspan="2" colspan="8" th:text="${merchandise.category}"></td>
+            <td rowspan="2" colspan="8" th:text="|${merchandise.category.gender} / ${merchandise.category.clothType} / ${merchandise.category.season}|"></td>
         </tr>
         </thead>
     </table>

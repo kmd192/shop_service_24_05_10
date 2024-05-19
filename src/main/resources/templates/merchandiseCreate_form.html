@@ -64,12 +64,35 @@
             </div>
             <div class="mb-3">
                 <label for="image" class="form-label">이미지</label>
-                <input type="text" th:value="${image}" id="image" class="form-control">
+                <input type="file" th:value="${image}" id="image" class="form-control">
             </div>
-            <input type="sumbit" value="등록하기" id="sendRequest" class="btn btn-primary my-2">
+            <input onchange="readURL(this)" type="sumbit" value="등록하기" id="sendRequest" class="btn btn-primary my-2">
         </form>
 </div>
 <script layout:fragment="script" type="text/javascript">
+function readURL(input){
+    it(input.files && input.files[0]){
+        var reader = new FileReader();
+        reader.readAsDataURL(input.files[0]);
+
+        reader.onload = function(e){
+            var tempImage.src = reader.result;
+            console.log(tempImage);
+            tempImage.onload = function(){
+                var canvas = document.createElement('canvas');
+                var canvasContext = canvas.getContext("2d");
+
+            var img = new Image();
+                img.src = e.target.result;
+
+                canvasContext.drawImage(this,0,0);
+
+                var dataURI = canvas.toDataURL("image/png");
+            }
+        }
+    }
+}
+
 $('#sendRequest').click(function(){
     console.log(document.getElementById("merchandiseName").value);
     console.log(document.getElementById("price").value);

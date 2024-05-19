@@ -48,7 +48,7 @@ public class MerchandiseController {
         SiteUser seller = userService.getUser(principal.getName());
 
         merchandiseService.createMerchandise(merchandiseCreateForm.getMerchandiseName(), merchandiseCreateForm.getPrice(),
-                merchandiseCreateForm.getSize(), merchandiseCreateForm.getSize2(), merchandiseCreateForm.getImage(),
+                merchandiseCreateForm.getSize(), merchandiseCreateForm.getSize2(), merchandiseCreateForm.getImage().getBytes(),
                 merchandiseCreateForm.getGender(), merchandiseCreateForm.getClothType(), merchandiseCreateForm.getSeason(),
                 seller);
 

@@ -47,10 +47,10 @@ public class Merchandise {
     @ManyToOne(fetch = FetchType.LAZY)
     private Cart cart;
 
-    private String image;
+    private byte[] image;
 
     Merchandise changeMerchandiseInfoEntity(String merchandiseName, long price,
-                          String size, String image){
+                          String size, byte[] image){
         this.merchandiseName = merchandiseName;
         this.price = price;
         this.size = size;
