@@ -10,9 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
@@ -53,13 +55,6 @@ public class MerchandiseController {
                 seller);
 
         return ResponseEntity.ok("상품이 성공적으로 등록되었습니다.");
-    }
-
-    @GetMapping("/detail/{id}")
-    public String merchandiseDetail(Model model, @PathVariable long id){
-        Merchandise merchandise = merchandiseService.getMerchandise(id);
-        model.addAttribute("merchandise", merchandise);
-        return "merchandise_detail";
     }
 
 }
