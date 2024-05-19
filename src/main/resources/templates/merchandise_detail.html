@@ -40,7 +40,8 @@
     <h5 class="border-bottom my-3 py-2"
         th:text="|${#lists.size(merchandise.reviewList)}개의 리뷰가 있습니다.|"></h5>
     <div class="card my-3" th:each="review : ${merchandise.reviewList}">
-        <div class="card-text" style="white-space: pre-line;" th:text="${review.review}"></div>
+        <a style="scroll-margin-top:10px;" th:id="|review_${review.id}|"></a>
+        <div class="card-text" style="white-space: pre-line; margin: 5px;" th:text="${review.review}"></div>
         <div class="d-flex justify-content-end">
             <div th:if="${review.modifyDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
                 <div class="mb-2">modified at</div>

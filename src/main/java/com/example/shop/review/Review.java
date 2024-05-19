@@ -34,8 +34,10 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     private Merchandise merchandise;
 
-    public void changeReview(String review){
+    public Review changeReviewEntity(String review){
         this.modifyDate = LocalDateTime.now();
         this.review = review;
+
+        return this;
     }
 }

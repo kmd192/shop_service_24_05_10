@@ -35,4 +35,14 @@ public class ReviewService {
 
         return review;
     }
+
+    public Review getReview(long id) {
+        return reviewRepository.findById(id).get();
+    }
+
+    public void changeReview(long id, String content){
+        reviewRepository.save(reviewRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("no such data"))
+                .changeReviewEntity(content));
+    }
 }
