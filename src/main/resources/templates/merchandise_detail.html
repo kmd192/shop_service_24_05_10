@@ -1,33 +1,10 @@
-<html layout:decorate="~{layout}"
-      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
 
-<div layout:fragment="content" class="container min-vh-100 my-3">
-    <br>
-    <div th:text="${merchandise.merchandiseName}" th:style="'font-size: 24px;'"></div>
-    <br><br>
-    <table height="300" class="table border border-2 border-dark table-bordered">
-        <thead>
-        <tr class="text-center">
-            <td width="50%" rowspan="8" colspan="8" th:text="${merchandise.image}"></td>
-            <td rowspan="2" colspan="8" th:text="${merchandise.seller.username}"></td>
-        </tr>
-        <tr></tr>
-        <tr class="text-center">
-            <td rowspan="2" colspan="8" th:text="${merchandise.price}"></td>
-        </tr>
-        <tr></tr>
-        <tr class="text-center">
-            <td rowspan="2" colspan="8" th:text="${merchandise.size}"></td>
-        </tr>
-        <tr></tr>
-        <tr class="text-center">
-            <td rowspan="2" colspan="8" th:text="${merchandise.like}"></td>
-        </tr>
-        <tr></tr>
-        <tr class="text-center">
-            <td rowspan="2" colspan="8" th:text="${merchandise.category}"></td>
-        </tr>
-        </thead>
-    </table>
-</div>
+</body>
+</html>
