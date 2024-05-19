@@ -45,4 +45,8 @@ public class ReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("no such data"))
                 .changeReviewEntity(content));
     }
+
+    public void delete(Review review) {
+        reviewRepository.delete(review);
+    }
 }

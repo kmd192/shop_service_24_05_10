@@ -70,7 +70,7 @@ public class ReviewController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
-    public String reviewModify2(@Valid ReviewForm reviewForm, @PathVariable long id, Principal principal, BindingResult bindingResult){
+    public String reviewModify(@Valid ReviewForm reviewForm, @PathVariable long id, Principal principal, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             return "review_form";
@@ -85,6 +85,21 @@ public class ReviewController {
         reviewService.changeReview(id, reviewForm.getContent());
 
         return String.format("redirect:/merchandise/detail/%d#review_%s", review.getMerchandise().getId(), review.getId());
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{id}")
+    public String reviewDelete(@PathVariable long id, Principal principal){
+
+        Review review = reviewService.getReview(id);
+
+        if (!review.getReviewer().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+        }
+
+        reviewService.delete(review);
+
+        return String.format("redirect:/merchandise/detail/%d", review.getMerchandise().getId());
     }
 
 }
