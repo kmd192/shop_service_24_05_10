@@ -1,5 +1,6 @@
 package com.example.shop;
 
+import com.example.shop.category.CategoryRepository;
 import com.example.shop.merchandise.MerchandiseRepository;
 import com.example.shop.merchandise.MerchandiseService;
 import com.example.shop.review.ReviewRepository;
@@ -36,6 +37,9 @@ public class UserRepositoryTests {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @BeforeEach
     void beforeEach(){
         clearData();
@@ -43,16 +47,19 @@ public class UserRepositoryTests {
     }
 
     private void clearData(){
-        clearAllData(reviewRepository, userRepository, merchandiseRepository);
+        clearAllData(categoryRepository, reviewRepository, userRepository, merchandiseRepository);
     }
 
-    public static void clearAllData(ReviewRepository reviewRepository, UserRepository userRepository,
-                                 MerchandiseRepository merchandiseRepository){
+    public static void clearAllData(CategoryRepository categoryRepository, ReviewRepository reviewRepository, UserRepository userRepository,
+                                    MerchandiseRepository merchandiseRepository){
         reviewRepository.deleteAllInBatch();
         reviewRepository.truncateTable();
 
         merchandiseRepository.deleteAllInBatch();
         merchandiseRepository.truncateTable();
+
+        categoryRepository.deleteAllInBatch();
+        categoryRepository.truncateTable();
 
         userRepository.deleteAllInBatch();
         userRepository.truncateTable();
@@ -64,6 +71,7 @@ public class UserRepositoryTests {
         userService.addCash("admin", 200000);
         userService.addCash("user1", 200000);
 
+        CategoryRepositoryTests.createSampleData(categoryRepository);
         MerchandiseRepositoryTests.createSampleData(merchandiseService, userRepository);
     }
 

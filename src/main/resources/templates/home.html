@@ -120,7 +120,7 @@ function onClick(){
         $.ajax({
             type: "GET",
             url: "/home/ajax",
-            dataType: "json",
+            dataType: "json; charset=UTF-8",
             data: {
                 "kw": $("#kw").val(),
                 "sortList": $("select[name=sortList] option:selected").val(),
@@ -146,7 +146,7 @@ function onClick2(){
         $.ajax({
             type: "GET",
            url: "/home/ajax",
-            dataType: "json",
+            dataType: "json; charset=UTF-8",
             data: {
                 "kw": $("#kw").val(),
                 "sortList": $("select[name=sortList] option:selected").val(),
@@ -170,7 +170,7 @@ $("select[name=sortList]").change(function(){
     $.ajax({
         type: "GET",
         url: "/home/ajax",
-        dataType: "json",
+        dataType: "json; charset=UTF-8",
         data: {
             "kw": $("#kw").val(),
             "sortList": $("select[name=sortList] option:selected").val(),
@@ -194,7 +194,7 @@ $("select[name=sortGender]").change(function(){
     $.ajax({
         type: "GET",
         url: "/home/ajax",
-        dataType: "json",
+        dataType: "json; charset=UTF-8",
         data: {
             "kw": $("#kw").val(),
             "sortList": $("select[name=sortList] option:selected").val(),
@@ -218,7 +218,7 @@ $("select[name=sortType]").change(function(){
     $.ajax({
         type: "GET",
         url: "/home/ajax",
-        dataType: "json",
+        dataType: "json; charset=UTF-8",
         data: {
             "kw": $("#kw").val(),
             "sortList": $("select[name=sortList] option:selected").val(),
@@ -242,7 +242,7 @@ $("select[name=sortSeason]").change(function(){
     $.ajax({
         type: "GET",
         url: "/home/ajax",
-        dataType: "json",
+        dataType: "json; charset=UTF-8",
         data: {
             "kw": $("#kw").val(),
             "sortList": $("select[name=sortList] option:selected").val(),

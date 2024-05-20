@@ -1,5 +1,6 @@
 package com.example.shop;
 
+import com.example.shop.category.CategoryRepository;
 import com.example.shop.category.CategoryService;
 import com.example.shop.merchandise.Merchandise;
 import com.example.shop.merchandise.MerchandiseRepository;
@@ -41,6 +42,9 @@ public class MerchandiseRepositoryTests {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @BeforeEach
     void beforeEach() {
         clearData();
@@ -48,10 +52,11 @@ public class MerchandiseRepositoryTests {
     }
 
     private void clearData() {
-        UserRepositoryTests.clearAllData(reviewRepository, userRepository, merchandiseRepository);
+        UserRepositoryTests.clearAllData(categoryRepository, reviewRepository, userRepository, merchandiseRepository);
     }
 
     private void createSampleData() {
+        CategoryRepositoryTests.createSampleData(categoryRepository);
         UserRepositoryTests.createSampleData(userService);
         merchandiseService.createMerchandise("티셔츠1", 15000L, "XL", " ", "image", "MALE", "TOP", "SPRING", userRepository.findByUsername("user1").get());
         merchandiseService.createMerchandise("신발1", 20000L, " ", "260", "image", "MALE", "SHOES", "SPRING", userRepository.findByUsername("user1").get());
