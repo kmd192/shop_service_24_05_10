@@ -22,4 +22,7 @@ public interface MerchandiseRepository extends JpaRepository<Merchandise, Long> 
 
     Page<Merchandise> findDistinctByCategoryIn
             (List<Category> category, Pageable pageable);
+
+    Page<Merchandise> findDistinctByMerchandiseNameContainsOrSeller_usernameContainsOrReviewList_reviewContainsOrReviewList_Reviewer_usernameContains
+            (String kw, String kw1, String kw2, String kw3, Pageable pageable);
 }

@@ -18,8 +18,8 @@
         <div class="col-1"></div>
         <div class="col-8">
             <form class="input-group">
-                <input type="text" onclick="onClick()" id="kw" class="form-control" th:value="${kw}" placeholder="검색어를 입력해주세요.">
-                <button onclick="onClick2()" class="btn btn-outline-secondary" type="submit" style="margin-top:0;">검색</button>
+                <input type="text" id="kw" class="form-control" th:value="${kw}" placeholder="검색어를 입력해주세요.">
+                <button onclick="onClick()" class="btn btn-outline-secondary" type="submit" style="margin-top:0;">검색</button>
             </form>
         </div>
     </div>
@@ -120,7 +120,8 @@ function onClick(){
         $.ajax({
             type: "GET",
             url: "/home/ajax",
-            dataType: "json; charset=UTF-8",
+            contentType: 'application/json; charset=utf-8',
+            dataType: "json",
             data: {
                 "kw": $("#kw").val(),
                 "sortList": $("select[name=sortList] option:selected").val(),
@@ -140,37 +141,12 @@ function onClick(){
         })
     }
 
-
-function onClick2(){
-    event.preventDefault();
-        $.ajax({
-            type: "GET",
-           url: "/home/ajax",
-            dataType: "json; charset=UTF-8",
-            data: {
-                "kw": $("#kw").val(),
-                "sortList": $("select[name=sortList] option:selected").val(),
-                "sortGender": $("select[name=sortGender] option:selected").val(),
-                "sortType": $("select[name=sortType] option:selected").val(),
-                "sortSeason": $("select[name=sortSeason] option:selected").val()
-            },
-            success: function(response){
-                 console.log("성공");
-                console.log(response);
-            },
-            error: function(xhr, status, error){
-                 console.log("에러");
-                console.error(xhr.responseText);
-                $('#merchandise-list').html(xhr.responseText);
-            }
-        })
-    }
-
 $("select[name=sortList]").change(function(){
     $.ajax({
         type: "GET",
         url: "/home/ajax",
-        dataType: "json; charset=UTF-8",
+        contentType: 'application/json; charset=utf-8',
+        dataType: "json",
         data: {
             "kw": $("#kw").val(),
             "sortList": $("select[name=sortList] option:selected").val(),
@@ -194,7 +170,8 @@ $("select[name=sortGender]").change(function(){
     $.ajax({
         type: "GET",
         url: "/home/ajax",
-        dataType: "json; charset=UTF-8",
+        contentType: 'application/json; charset=utf-8',
+        dataType: "json",
         data: {
             "kw": $("#kw").val(),
             "sortList": $("select[name=sortList] option:selected").val(),
@@ -218,7 +195,8 @@ $("select[name=sortType]").change(function(){
     $.ajax({
         type: "GET",
         url: "/home/ajax",
-        dataType: "json; charset=UTF-8",
+        contentType: 'application/json; charset=utf-8',
+        dataType: "json",
         data: {
             "kw": $("#kw").val(),
             "sortList": $("select[name=sortList] option:selected").val(),
@@ -242,7 +220,8 @@ $("select[name=sortSeason]").change(function(){
     $.ajax({
         type: "GET",
         url: "/home/ajax",
-        dataType: "json; charset=UTF-8",
+        contentType: 'application/json; charset=utf-8',
+        dataType: "json",
         data: {
             "kw": $("#kw").val(),
             "sortList": $("select[name=sortList] option:selected").val(),

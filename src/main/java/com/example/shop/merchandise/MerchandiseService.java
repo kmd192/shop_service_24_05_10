@@ -68,9 +68,18 @@ public class MerchandiseService {
         System.out.println(sortType);
         System.out.println(sortSeason);
 
-        if(sortGender.equals("NOGENDER")){sortGender = null;};
-        if(sortType.equals("NOTYPE")){sortType = null;};
-        if(sortSeason.equals("NOSEASON")){sortSeason = null;};
+        if (sortGender.equals("NOGENDER")) {
+            sortGender = null;
+        }
+        ;
+        if (sortType.equals("NOTYPE")) {
+            sortType = null;
+        }
+        ;
+        if (sortSeason.equals("NOSEASON")) {
+            sortSeason = null;
+        }
+        ;
 
         System.out.println(sortGender);
         System.out.println(sortType);
@@ -80,30 +89,37 @@ public class MerchandiseService {
 
         System.out.println(category);
 
-        if (sortList.equals("NEW")){
+        if (sortList.equals("NEW")) {
             sorts.add(Sort.Order.desc("id"));
-        } else if(sortList.equals("OLD")){
+        } else if (sortList.equals("OLD")) {
             sorts.add(Sort.Order.asc("id"));
-        } else if(sortList.equals("CHEAP")){
+        } else if (sortList.equals("CHEAP")) {
             sorts.add(Sort.Order.asc("price"));
-        } else if(sortList.equals("EXPENSIVE")){
+        } else if (sortList.equals("EXPENSIVE")) {
             sorts.add(Sort.Order.desc("price"));
-        } else if(sortList.equals("LIKE")){
+        } else if (sortList.equals("LIKE")) {
             sorts.add(Sort.Order.asc("like"));
         }
 
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 
-        if(kw.trim().isEmpty() && (category == null || category.isEmpty())){
+        if (kw.trim().isEmpty() && (category == null || category.isEmpty())) {
             System.out.println("findAll");
             return merchandiseRepository.findAll(pageable);
-        } else if(kw.trim().isEmpty() && (category != null && !category.isEmpty())){
+        } else if (kw.trim().isEmpty() && (category != null && !category.isEmpty())) {
             System.out.println("findbyCategoryIn");
             return merchandiseRepository.findDistinctByCategoryIn(category, pageable);
         }
         System.out.println("findBykw");
-        return merchandiseRepository.findDistinctByCategoryInAndMerchandiseNameContainsOrSeller_usernameContainsOrReviewList_reviewContainsOrReviewList_Reviewer_usernameContains
-                (category, kw, kw, kw, kw, pageable);
+
+        if (!kw.trim().isEmpty() && (category == null || category.isEmpty())) {
+            return merchandiseRepository.findDistinctByMerchandiseNameContainsOrSeller_usernameContainsOrReviewList_reviewContainsOrReviewList_Reviewer_usernameContains
+                    (kw, kw, kw, kw, pageable);
+        } else if (!kw.trim().isEmpty() && !(category == null || category.isEmpty())) {
+            return merchandiseRepository.findDistinctByCategoryInAndMerchandiseNameContainsOrSeller_usernameContainsOrReviewList_reviewContainsOrReviewList_Reviewer_usernameContains
+                    (category, kw, kw, kw, kw, pageable);
+        }
+        return null;
     }
 
     public Merchandise getMerchandise(long id) {
