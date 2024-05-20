@@ -2,6 +2,7 @@ package com.example.shop;
 
 import com.example.shop.merchandise.MerchandiseRepository;
 import com.example.shop.merchandise.MerchandiseService;
+import com.example.shop.review.ReviewRepository;
 import com.example.shop.user.UserRepository;
 import com.example.shop.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +33,9 @@ public class UserRepositoryTests {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ReviewRepository reviewRepository;
+
     @BeforeEach
     void beforeEach(){
         clearData();
@@ -39,11 +43,14 @@ public class UserRepositoryTests {
     }
 
     private void clearData(){
-        clearAllData(userRepository, merchandiseRepository);
+        clearAllData(reviewRepository, userRepository, merchandiseRepository);
     }
 
-    public static void clearAllData(UserRepository userRepository,
+    public static void clearAllData(ReviewRepository reviewRepository, UserRepository userRepository,
                                  MerchandiseRepository merchandiseRepository){
+        reviewRepository.deleteAllInBatch();
+        reviewRepository.truncateTable();
+
         merchandiseRepository.deleteAllInBatch();
         merchandiseRepository.truncateTable();
 

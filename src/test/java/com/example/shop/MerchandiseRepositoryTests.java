@@ -4,6 +4,8 @@ import com.example.shop.category.CategoryService;
 import com.example.shop.merchandise.Merchandise;
 import com.example.shop.merchandise.MerchandiseRepository;
 import com.example.shop.merchandise.MerchandiseService;
+import com.example.shop.review.ReviewRepository;
+import com.example.shop.review.ReviewService;
 import com.example.shop.user.UserRepository;
 import com.example.shop.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,16 +35,20 @@ public class MerchandiseRepositoryTests {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
+
     @BeforeEach
     void beforeEach() {
         clearData();
         createSampleData();
-
-
     }
 
     private void clearData() {
-        UserRepositoryTests.clearAllData(userRepository, merchandiseRepository);
+        UserRepositoryTests.clearAllData(reviewRepository, userRepository, merchandiseRepository);
     }
 
     private void createSampleData() {
@@ -121,6 +127,8 @@ public class MerchandiseRepositoryTests {
                                 .build();
 
                         merchandiseRepository.save(m);
+
+                        reviewService.createReview(m, "%d".formatted(mNum), userRepository.findByUsername("user1").get());
                     }
                 }
             }

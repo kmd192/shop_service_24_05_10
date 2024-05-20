@@ -24,7 +24,8 @@
         <tr></tr>
         <tr class="text-center">
             <td rowspan="2" colspan="8">
-                <a href="javascript:void(0);" class="btn btn-sm btn-outline-secondary"
+                <a href="javascript:void(0);" class="like btn btn-sm btn-outline-secondary"
+                   th:style="${isLikedByCurrentUser == true} ? 'background-color: black' : 'background-color: white' "
                    th:data-uri="@{|/merchandise/vote/${merchandise.id}|}">
                     추천
                     <span class="badge rounded-pill bg-success" th:text="${#lists.size(merchandise.like)}"></span>
@@ -75,13 +76,29 @@
         <input type="submit" value="답변등록" class="btn btn-primary my-2">
     </form>
 </div>
-<script layout:fragment="script" type="text/javascript">
+<script layout:fragment="script" type="text/javascript" th:inline="javascript">
+var isLikedByCurrentUser = /*[[${isLikedByCurrentUser}]]*/ false;
+console.log(isLikedByCurrentUser);
+
 const delete_elements = document.getElementsByClassName("delete");
 Array.from(delete_elements).forEach(function(element){
     element.addEventListener('click', function(){
         if(confirm("정말로 삭제하시겠습니까?")){
             location.href = this.dataset.uri;
         };
+    });
+});
+
+const like_elements = document.getElementsByClassName("like");
+Array.from(like_elements).forEach(function(element){
+    element.addEventListener('click', function(){
+        if(isLikedByCurrentUser == true){
+            if(confirm("좋아요를 취소하시겠습니까?")){
+                location.href = this.dataset.uri;
+            };
+        } else {
+            location.href = this.dataset.uri;
+        }
     });
 });
 </script>

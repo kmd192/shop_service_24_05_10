@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,8 +61,34 @@ public class MerchandiseController {
     @GetMapping("/detail/{id}")
     public String merchandiseDetail(Model model, @PathVariable long id, ReviewForm reviewForm){
         Merchandise merchandise = merchandiseService.getMerchandise(id);
+
+        boolean isLikedByCurrentUser = false;
+
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+        if(principal instanceof UsernamePasswordAuthenticationToken){
+            SiteUser currentUser = userService.getUser(principal.getName());
+            isLikedByCurrentUser = merchandise.getLike().contains(currentUser);
+        }
+
         model.addAttribute("merchandise", merchandise);
+        model.addAttribute("isLikedByCurrentUser", isLikedByCurrentUser);
+
         return "merchandise_detail";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String merchandiseVote(Model model, Principal principal, @PathVariable long id){
+        Merchandise merchandise = merchandiseService.getMerchandise(id);
+        SiteUser liker = userService.getUser(principal.getName());
+
+        if(merchandise.getLike().contains(liker)){
+            merchandiseService.disLike(merchandise, liker);
+            return String.format("redirect:/merchandise/detail/%d", id);
+        }
+
+        merchandiseService.like(merchandise, liker);
+        return String.format("redirect:/merchandise/detail/%d", id);
     }
 
 }

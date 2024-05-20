@@ -109,4 +109,14 @@ public class MerchandiseService {
     public Merchandise getMerchandise(long id) {
         return merchandiseRepository.findById(id).get();
     }
+
+    public void like(Merchandise merchandise, SiteUser liker) {
+        merchandise.getLike().add(liker);
+        merchandiseRepository.save(merchandise);
+    }
+
+    public void disLike(Merchandise merchandise, SiteUser liker) {
+        merchandise.getLike().remove(liker);
+        merchandiseRepository.save(merchandise);
+    }
 }
