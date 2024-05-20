@@ -8,7 +8,7 @@
             <h4>Information</h4>
         </div>
     </div>
-    <form th:action="@{/user/modify/{id}}" th:object="${userModifyForm}" method="post">
+    <form th:action="@{/user/modify/{user.id}}" th:object="${userModifyForm}" method="post">
         <div th:replace="~{form_errors :: formErrorsFragment}"></div>
         <div class="mb-3">
             <label for="username" class="form-label">사용자ID</label>
@@ -30,6 +30,17 @@
             <label for="address" class="form-label">주소</label>
             <input type="text" th:field="${user.address}" id="address" class="form-control">
         </div>
+        <br>
         <button type="submit" class="btn btn-primary">수정하기</button>
     </form>
+    <br>
+        <button th:data-uri="@{|/user/delete/${user.id}|}" onclick="onClick(this)" type="submit" class="btn btn-primary">삭제하기</button>
 </div>
+<script layout:fragment="script" type='text/javascript'>
+function onClick(button){
+    event.preventDefault();
+    if(confirm("정말로 삭제하시겠습니까")){
+        location.href = button.dataset.uri;
+    }
+}
+</script>

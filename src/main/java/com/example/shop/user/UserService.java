@@ -53,4 +53,14 @@ public class UserService {
         return userRepository.findByUsername(username).orElseThrow(() ->
                 new DataNotFoundException("siteuser no found"));
     }
+
+    public SiteUser getUser(long id) {
+
+        return userRepository.findById(id).orElseThrow(() ->
+                new DataNotFoundException("siteuser no found"));
+    }
+
+    public void delete(long id) {
+        userRepository.deleteById(id);
+    }
 }

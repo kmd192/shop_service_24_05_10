@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,5 +49,13 @@ public class ReviewService {
 
     public void delete(Review review) {
         reviewRepository.delete(review);
+    }
+
+    public void deleteByUserId(long id) {
+        SiteUser reviewer = userService.getUser(id);
+        List<Review> r = reviewRepository.findByReviewer(reviewer);
+        for (Review review : r) {
+            reviewRepository.deleteById(review.getId());
+        }
     }
 }

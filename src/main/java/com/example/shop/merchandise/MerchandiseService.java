@@ -3,6 +3,7 @@ package com.example.shop.merchandise;
 import com.example.shop.category.Category;
 import com.example.shop.category.CategoryService;
 import com.example.shop.user.SiteUser;
+import com.example.shop.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,8 @@ public class MerchandiseService {
     private final MerchandiseRepository merchandiseRepository;
 
     private final CategoryService categoryService;
+
+    private final UserService userService;
 
     public Merchandise createMerchandise(String merchandiseName, long price, String size, String size2,
                                          String image, String gender, String clothType, String season,
@@ -134,5 +137,13 @@ public class MerchandiseService {
     public void disLike(Merchandise merchandise, SiteUser liker) {
         merchandise.getLike().remove(liker);
         merchandiseRepository.save(merchandise);
+    }
+
+    public void deleteByUserId(long id) {
+        SiteUser siteUser = userService.getUser(id);
+        List<Merchandise> m = merchandiseRepository.findBySeller(siteUser);
+        for (Merchandise merchandise : m) {
+            merchandiseRepository.deleteById(merchandise.getId());
+        }
     }
 }

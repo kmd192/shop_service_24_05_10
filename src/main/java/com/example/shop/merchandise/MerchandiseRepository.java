@@ -1,6 +1,7 @@
 package com.example.shop.merchandise;
 
 import com.example.shop.category.Category;
+import com.example.shop.user.SiteUser;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,4 +26,6 @@ public interface MerchandiseRepository extends JpaRepository<Merchandise, Long> 
 
     Page<Merchandise> findDistinctByMerchandiseNameContainsOrSeller_usernameContainsOrReviewList_reviewContainsOrReviewList_Reviewer_usernameContains
             (String kw, String kw1, String kw2, String kw3, Pageable pageable);
+
+    List<Merchandise> findBySeller(SiteUser siteUser);
 }
