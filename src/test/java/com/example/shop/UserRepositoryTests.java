@@ -69,11 +69,11 @@ public class UserRepositoryTests {
         categoryRepository.deleteAllInBatch();
         categoryRepository.truncateTable();
 
-        userRepository.deleteAllInBatch();
-        userRepository.truncateTable();
-
         cartRepository.deleteAllInBatch();
         cartRepository.truncateTable();
+
+        userRepository.deleteAllInBatch();
+        userRepository.truncateTable();
     }
 
     private void createSampleData(){
@@ -84,6 +84,7 @@ public class UserRepositoryTests {
 
         CategoryRepositoryTests.createSampleData(categoryRepository);
         MerchandiseRepositoryTests.createSampleData(merchandiseService, userRepository);
+        CartRepositoryTests.createSampleData(userService, cartRepository, merchandiseRepository, cartService);
     }
 
     public static void createSampleData(UserService userService){

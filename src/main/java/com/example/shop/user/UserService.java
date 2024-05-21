@@ -1,6 +1,5 @@
 package com.example.shop.user;
 
-import com.example.shop.cart.Cart;
 import com.example.shop.error.DataNotFoundException;
 import com.example.shop.error.SignupEmailDuplicatedException;
 import com.example.shop.error.SignupUsernameDuplicatedException;
@@ -23,7 +22,6 @@ public class UserService {
                         .email(email)
                         .address(address)
                         .password(passwordEncoder.encode(password))
-                        .cart(new Cart())
                         .build();
 
         try {
@@ -39,7 +37,7 @@ public class UserService {
         return user;
     }
 
-    public void addCash(String username, double add){
+    public void addCash(String username, long add){
         userRepository.save(userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("no such data"))
                 .addCashEntity(add));

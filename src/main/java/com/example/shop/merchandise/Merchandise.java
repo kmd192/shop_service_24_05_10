@@ -45,8 +45,8 @@ public class Merchandise {
     @ManyToOne(fetch = FetchType.LAZY)
     private SiteUser seller;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Cart cart;
+    @ManyToMany(mappedBy = "merchandiseList")
+    private List<Cart> cart;
 
     private String image;
 

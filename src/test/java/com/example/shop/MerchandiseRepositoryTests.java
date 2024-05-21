@@ -1,6 +1,8 @@
 package com.example.shop;
 
+import com.example.shop.cart.Cart;
 import com.example.shop.cart.CartRepository;
+import com.example.shop.cart.CartService;
 import com.example.shop.category.CategoryRepository;
 import com.example.shop.category.CategoryService;
 import com.example.shop.merchandise.Merchandise;
@@ -8,12 +10,15 @@ import com.example.shop.merchandise.MerchandiseRepository;
 import com.example.shop.merchandise.MerchandiseService;
 import com.example.shop.review.ReviewRepository;
 import com.example.shop.review.ReviewService;
+import com.example.shop.user.SiteUser;
 import com.example.shop.user.UserRepository;
 import com.example.shop.user.UserService;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
 import java.util.stream.IntStream;
 
@@ -49,6 +54,9 @@ public class MerchandiseRepositoryTests {
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private CartService cartService;
+
     @BeforeEach
     void beforeEach() {
         clearData();
@@ -64,6 +72,7 @@ public class MerchandiseRepositoryTests {
         UserRepositoryTests.createSampleData(userService);
         merchandiseService.createMerchandise("티셔츠1", 15000L, "XL", " ", "image", "MALE", "TOP", "SPRING", userRepository.findByUsername("user1").get());
         merchandiseService.createMerchandise("신발1", 20000L, " ", "260", "image", "MALE", "SHOES", "SPRING", userRepository.findByUsername("user1").get());
+        CartRepositoryTests.createSampleData(userService, cartRepository, merchandiseRepository, cartService);
     }
 
     public static void createSampleData(MerchandiseService merchandiseService, UserRepository userRepository) {
@@ -71,8 +80,13 @@ public class MerchandiseRepositoryTests {
         merchandiseService.createMerchandise("신발1", 20000L, " ", "260", "image", "MALE", "SHOES", "SPRING", userRepository.findByUsername("user1").get());
     }
 
+    @Transactional
+    @Rollback(value = false)
     @Test
     void 셋팅() {
+        Cart cart = cartRepository.findById(2L).get();
+        SiteUser siteUser = userRepository.findByUsername("user1").get();
+
         boolean run = true;
 
         if (run == false) return;
@@ -133,10 +147,11 @@ public class MerchandiseRepositoryTests {
                                 .size("XL")
                                 .image("image")
                                 .category(categoryService.findCategory(gender, clothType, season).get(0))
-                                .seller(userRepository.findByUsername("user1").get())
+                                .seller(siteUser)
                                 .build();
 
                         merchandiseRepository.save(m);
+                        cartService.addMerchandise(cart, m);
 
                         reviewService.createReview(m, "%d".formatted(mNum), userRepository.findByUsername("user1").get());
                     }

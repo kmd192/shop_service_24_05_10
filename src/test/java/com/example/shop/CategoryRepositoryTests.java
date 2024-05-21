@@ -40,9 +40,9 @@ public class CategoryRepositoryTests {
         UserRepositoryTests.clearAllData(cartRepository, categoryRepository, reviewRepository, userRepository, merchandiseRepository);
     }
 
-    private void createSampleData(){
-    }
+    private void createSampleData() {
 
+    }
     public static void createSampleData(CategoryRepository categoryRepository){
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {

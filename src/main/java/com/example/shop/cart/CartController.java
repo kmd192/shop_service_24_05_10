@@ -20,6 +20,9 @@ public class CartController {
     @GetMapping("/cart")
     public String cart(Principal principal, Model model){
         SiteUser siteUser = userService.getUser(principal.getName());
+        Cart cart = siteUser.getCart();
+        System.out.println(cart.getId());
+        System.out.println(cart.getMerchandiseList());
         model.addAttribute("user", siteUser);
         return "cart";
     }

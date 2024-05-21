@@ -36,16 +36,12 @@ public class SiteUser {
     @OneToMany(mappedBy = "seller")
     private final List<Merchandise> merchandiseList = new ArrayList<>();
 
-    private double cash;
+    private long cash;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "cart_id")
+    @OneToOne(mappedBy = "cartUser", cascade = CascadeType.ALL)
     private Cart cart;
 
-    /*@OneToOne(mappedBy = "cartUser", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private Cart cart;*/
-
-    SiteUser addCashEntity(double add){
+    SiteUser addCashEntity(long add){
         this.cash = cash + add;
 
         return this;

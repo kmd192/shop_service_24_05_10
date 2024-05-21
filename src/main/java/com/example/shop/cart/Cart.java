@@ -2,6 +2,7 @@ package com.example.shop.cart;
 
 import com.example.shop.merchandise.Merchandise;
 import com.example.shop.quantity.Quantity;
+import com.example.shop.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,11 +23,19 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany(mappedBy = "cart")
+    @ManyToMany
     private final List<Merchandise> merchandiseList = new ArrayList<>();
 
     @OneToMany(mappedBy = "cart")
     private List<Quantity> quantity;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private SiteUser cartUser;
+
+    Cart addMerchandiseEntity(Merchandise merchandise){
+        this.merchandiseList.add(merchandise);
+        return this;
+    }
 
     public void changeCart(String merchandiseList){
     }

@@ -3,8 +3,10 @@ package com.example.shop.quantity;
 import com.example.shop.cart.Cart;
 import com.example.shop.merchandise.Merchandise;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class Quantity {
 
     @Id
@@ -16,6 +18,6 @@ public class Quantity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Cart cart;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private Merchandise merchandise;
 }
