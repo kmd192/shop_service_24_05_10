@@ -1,0 +1,34 @@
+<html layout:decorate="~{layout}"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div layout:fragment="content" class="container min-vh-100 my-3">
+    <br>
+    <h5>장바구니</h5>
+    <br><br>
+    <div th:each="merchandise : ${user.merchandiseList}">
+    <table height="300" class="table border border-2 border-dark table-bordered">
+        <thead>
+        <tr class="text-center">
+            <td width="30%" rowspan="8" colspan="8" th:text="${merchandise.image}"></td>
+            <td width="30%" rowspan="2" colspan="8" th:text="|상품: ${merchandise.merchandiseName}|"></td>
+            <td width="15%" rowspan="8" colspan="8" th:text="${}"></td>
+            <td width="25%" rowspan="8" colspan="8"></td>
+        </tr>
+        <tr></tr>
+        <tr class="text-center">
+            <td rowspan="2" colspan="8" th:text="|가격: ${merchandise.price}|"></td>
+        </tr>
+        <tr></tr>
+        <tr class="text-center">
+            <td rowspan="2" colspan="8" th:text="|사이즈: ${merchandise.size}|"></td>
+        </tr>
+        <tr></tr>
+        <tr class="text-center">
+            <td rowspan="2" colspan="8" th:text="|${merchandise.category.gender} / ${merchandise.category.clothType} / ${merchandise.category.season}|"></td>
+        </tr>
+    </table>
+        <br>
+    </div>
+</div>

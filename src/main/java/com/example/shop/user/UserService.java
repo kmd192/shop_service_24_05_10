@@ -1,5 +1,6 @@
 package com.example.shop.user;
 
+import com.example.shop.cart.Cart;
 import com.example.shop.error.DataNotFoundException;
 import com.example.shop.error.SignupEmailDuplicatedException;
 import com.example.shop.error.SignupUsernameDuplicatedException;
@@ -16,11 +17,13 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public SiteUser createUser(String username, String email, String password, String address){
+
         SiteUser user = SiteUser.builder()
                         .username(username)
                         .email(email)
                         .address(address)
                         .password(passwordEncoder.encode(password))
+                        .cart(new Cart())
                         .build();
 
         try {

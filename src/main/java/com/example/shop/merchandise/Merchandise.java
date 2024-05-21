@@ -2,6 +2,7 @@ package com.example.shop.merchandise;
 
 import com.example.shop.cart.Cart;
 import com.example.shop.category.Category;
+import com.example.shop.quantity.Quantity;
 import com.example.shop.review.Review;
 import com.example.shop.user.SiteUser;
 import jakarta.persistence.*;
@@ -48,6 +49,9 @@ public class Merchandise {
     private Cart cart;
 
     private String image;
+
+    @OneToMany(mappedBy = "merchandise")
+    private final List<Quantity> quantity = new ArrayList<>();
 
     Merchandise changeMerchandiseInfoEntity(String merchandiseName, long price,
                           String size, String image){

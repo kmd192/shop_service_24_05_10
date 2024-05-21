@@ -1,5 +1,6 @@
 package com.example.shop;
 
+import com.example.shop.cart.CartRepository;
 import com.example.shop.category.Category;
 import com.example.shop.category.CategoryRepository;
 import com.example.shop.merchandise.MerchandiseRepository;
@@ -27,13 +28,16 @@ public class CategoryRepositoryTests {
     @Autowired
     private MerchandiseRepository merchandiseRepository;
 
+    @Autowired
+    private CartRepository cartRepository;
+
     @BeforeEach
     void beforeEach(){
         clearData();
     }
 
     private void clearData() {
-        UserRepositoryTests.clearAllData(categoryRepository, reviewRepository, userRepository, merchandiseRepository);
+        UserRepositoryTests.clearAllData(cartRepository, categoryRepository, reviewRepository, userRepository, merchandiseRepository);
     }
 
     private void createSampleData(){

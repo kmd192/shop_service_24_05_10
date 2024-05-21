@@ -38,7 +38,8 @@ public class SiteUser {
 
     private double cash;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
     /*@OneToOne(mappedBy = "cartUser", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)

@@ -1,5 +1,7 @@
 package com.example.shop;
 
+import com.example.shop.cart.CartRepository;
+import com.example.shop.cart.CartService;
 import com.example.shop.category.CategoryRepository;
 import com.example.shop.merchandise.MerchandiseRepository;
 import com.example.shop.merchandise.MerchandiseService;
@@ -40,6 +42,12 @@ public class UserRepositoryTests {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
+    private CartService cartService;
+
     @BeforeEach
     void beforeEach(){
         clearData();
@@ -47,10 +55,10 @@ public class UserRepositoryTests {
     }
 
     private void clearData(){
-        clearAllData(categoryRepository, reviewRepository, userRepository, merchandiseRepository);
+        clearAllData(cartRepository, categoryRepository, reviewRepository, userRepository, merchandiseRepository);
     }
 
-    public static void clearAllData(CategoryRepository categoryRepository, ReviewRepository reviewRepository, UserRepository userRepository,
+    public static void clearAllData(CartRepository cartRepository, CategoryRepository categoryRepository, ReviewRepository reviewRepository, UserRepository userRepository,
                                     MerchandiseRepository merchandiseRepository){
         reviewRepository.deleteAllInBatch();
         reviewRepository.truncateTable();
@@ -63,6 +71,9 @@ public class UserRepositoryTests {
 
         userRepository.deleteAllInBatch();
         userRepository.truncateTable();
+
+        cartRepository.deleteAllInBatch();
+        cartRepository.truncateTable();
     }
 
     private void createSampleData(){

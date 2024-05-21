@@ -1,5 +1,6 @@
 package com.example.shop;
 
+import com.example.shop.cart.CartRepository;
 import com.example.shop.category.CategoryRepository;
 import com.example.shop.category.CategoryService;
 import com.example.shop.merchandise.Merchandise;
@@ -45,6 +46,9 @@ public class MerchandiseRepositoryTests {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private CartRepository cartRepository;
+
     @BeforeEach
     void beforeEach() {
         clearData();
@@ -52,7 +56,7 @@ public class MerchandiseRepositoryTests {
     }
 
     private void clearData() {
-        UserRepositoryTests.clearAllData(categoryRepository, reviewRepository, userRepository, merchandiseRepository);
+        UserRepositoryTests.clearAllData(cartRepository, categoryRepository, reviewRepository, userRepository, merchandiseRepository);
     }
 
     private void createSampleData() {
@@ -127,6 +131,7 @@ public class MerchandiseRepositoryTests {
                                 .merchandiseName("%s%d".formatted(mName,mNum))
                                 .price(10000L)
                                 .size("XL")
+                                .image("image")
                                 .category(categoryService.findCategory(gender, clothType, season).get(0))
                                 .seller(userRepository.findByUsername("user1").get())
                                 .build();
