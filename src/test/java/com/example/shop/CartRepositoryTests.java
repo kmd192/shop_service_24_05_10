@@ -7,6 +7,8 @@ import com.example.shop.category.CategoryRepository;
 import com.example.shop.merchandise.Merchandise;
 import com.example.shop.merchandise.MerchandiseRepository;
 import com.example.shop.merchandise.MerchandiseService;
+import com.example.shop.quantity.QuantityRepository;
+import com.example.shop.quantity.QuantityService;
 import com.example.shop.review.ReviewRepository;
 import com.example.shop.user.UserRepository;
 import com.example.shop.user.UserService;
@@ -46,6 +48,12 @@ public class CartRepositoryTests {
     @Autowired
     private MerchandiseService merchandiseService;
 
+    @Autowired
+    private QuantityService quantityService;
+
+    @Autowired
+    private QuantityRepository quantityRepository;
+
     @BeforeEach
     void beforeEach(){
         clearData();
@@ -53,7 +61,7 @@ public class CartRepositoryTests {
     }
 
     private void clearData() {
-        UserRepositoryTests.clearAllData(cartRepository, categoryRepository, reviewRepository, userRepository, merchandiseRepository);
+        UserRepositoryTests.clearAllData(quantityRepository, cartRepository, categoryRepository, reviewRepository, userRepository, merchandiseRepository);
     }
 
     private void createSampleData(){
@@ -61,15 +69,17 @@ public class CartRepositoryTests {
         CategoryRepositoryTests.createSampleData(categoryRepository);
         UserRepositoryTests.createSampleData(userService);
         MerchandiseRepositoryTests.createSampleData(merchandiseService, userRepository);
-        createSampleData(userService, cartRepository, merchandiseRepository, cartService);
+        createSampleData(quantityService, userService, cartRepository, merchandiseRepository, cartService);
     }
 
-    public static void createSampleData(UserService userService, CartRepository cartRepository, MerchandiseRepository merchandiseRepository, CartService cartService){
+    public static void createSampleData(QuantityService quantityService, UserService userService, CartRepository cartRepository, MerchandiseRepository merchandiseRepository, CartService cartService){
         cartService.createCart(userService.getUser(1L));
         cartService.createCart(userService.getUser(2L));
         Cart cart = cartRepository.findById(1L).get();
         Merchandise merchandise = merchandiseRepository.findById(1L).get();
+        Merchandise merchandise2 = merchandiseRepository.findById(2L).get();
         cartService.addMerchandise(cart, merchandise);
+        cartService.addMerchandise(cart, merchandise2);
     }
 
     @Transactional
@@ -77,8 +87,6 @@ public class CartRepositoryTests {
     @Test
     void 셋팅(){
         Cart cart = cartRepository.findById(1L).get();
-        Merchandise merchandise = merchandiseRepository.findById(2L).get();
-        cartService.addMerchandise(cart, merchandise);
         assertThat(cart.getMerchandiseList().size()).isEqualTo(2L);
     }
 }

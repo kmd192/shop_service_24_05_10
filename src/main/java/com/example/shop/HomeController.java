@@ -1,6 +1,5 @@
 package com.example.shop;
 
-import com.example.shop.category.CategoryService;
 import com.example.shop.merchandise.Merchandise;
 import com.example.shop.merchandise.MerchandiseService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomeController {
 
     private final MerchandiseService merchandiseService;
-
-    private final CategoryService categoryService;
 
     @GetMapping("/")
     public String root(){

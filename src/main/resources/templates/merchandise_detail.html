@@ -11,19 +11,19 @@
         <thead>
         <tr class="text-center">
             <td width="50%" rowspan="8" colspan="8" th:text="${merchandise.image}"></td>
-            <td rowspan="2" colspan="8" th:text="|판매자: ${merchandise.seller.username}|"></td>
+            <td height="20" rowspan="2" colspan="8" th:text="|판매자: ${merchandise.seller.username}|"></td>
         </tr>
         <tr></tr>
         <tr class="text-center">
-            <td rowspan="2" colspan="8" th:text="|가격: ${merchandise.price}|"></td>
+            <td height="20" rowspan="2" colspan="8" th:text="|가격: ${merchandise.price}|"></td>
         </tr>
         <tr></tr>
         <tr class="text-center">
-            <td rowspan="2" colspan="8" th:text="|사이즈: ${merchandise.size}|"></td>
+            <td height="20" rowspan="2" colspan="8" th:text="|사이즈: ${merchandise.size}|"></td>
         </tr>
         <tr></tr>
         <tr class="text-center">
-            <td rowspan="2" colspan="8">
+            <td height="20" rowspan="2" colspan="8">
                 <a href="javascript:void(0);" class="like btn btn-sm btn-outline-secondary"
                    th:style="${isLikedByCurrentUser == true} ? 'background-color: black' : 'background-color: white' "
                    th:data-uri="@{|/merchandise/vote/${merchandise.id}|}">
@@ -34,7 +34,11 @@
         </tr>
         <tr></tr>
         <tr class="text-center">
-            <td rowspan="2" colspan="8" th:text="|${merchandise.category.gender} / ${merchandise.category.clothType} / ${merchandise.category.season}|"></td>
+            <td height="20" rowspan="2" colspan="8" th:text="|${merchandise.category.gender} / ${merchandise.category.clothType} / ${merchandise.category.season}|"></td>
+            <td height="20" rowspan="2" colspan="8">
+                <button onclick="onClick()" type="submit" class="btn btn-primary my-2">장바구니 담기</button>
+                <input id="mId" type="hidden" th:value="${merchandise.id}">
+            </td>
         </tr>
         </thead>
     </table>
@@ -78,7 +82,9 @@
 </div>
 <script layout:fragment="script" type="text/javascript" th:inline="javascript">
 var isLikedByCurrentUser = /*[[${isLikedByCurrentUser}]]*/ false;
-console.log(isLikedByCurrentUser);
+var alreadyHas = /*[[${alreadyHas}]]*/ null;
+console.log("isLikedByCurrentUser: " + isLikedByCurrentUser);
+console.log("alreadyHas: " + alreadyHas);
 
 const delete_elements = document.getElementsByClassName("delete");
 Array.from(delete_elements).forEach(function(element){
@@ -101,4 +107,34 @@ Array.from(like_elements).forEach(function(element){
         }
     });
 });
+
+function onClick(){
+    event.preventDefault();
+     $.ajax({
+        type: "GET",
+        url: "/cart/put/ajax",
+        contentType: 'application/json; charset=utf-8',
+        dataType: "json",
+        data: {
+            "id": $('#mId').val()
+        },
+        success: function(response){
+              console.log("success");
+              console.log(response);
+              if(response == true){
+                if(confirm("상품이 장바구니에 담겼습니다. 지금 바로 확인하시겠습니까?")){
+                    location.href = "/cart";
+                } else {
+                }
+              } else {
+                alert("해당 상품이 이미 장바구니에 있습니다.");
+              }
+        },
+        error: function(xhr, status, error){
+             console.log("error");
+             console.error(xhr.responseText);
+             location.href = "/user/login";
+        }
+    })
+}
 </script>

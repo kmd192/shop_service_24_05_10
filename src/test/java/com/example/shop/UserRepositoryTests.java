@@ -5,6 +5,8 @@ import com.example.shop.cart.CartService;
 import com.example.shop.category.CategoryRepository;
 import com.example.shop.merchandise.MerchandiseRepository;
 import com.example.shop.merchandise.MerchandiseService;
+import com.example.shop.quantity.QuantityRepository;
+import com.example.shop.quantity.QuantityService;
 import com.example.shop.review.ReviewRepository;
 import com.example.shop.user.UserRepository;
 import com.example.shop.user.UserService;
@@ -48,6 +50,12 @@ public class UserRepositoryTests {
     @Autowired
     private CartService cartService;
 
+    @Autowired
+    private QuantityService quantityService;
+
+    @Autowired
+    private QuantityRepository quantityRepository;
+
     @BeforeEach
     void beforeEach(){
         clearData();
@@ -55,11 +63,14 @@ public class UserRepositoryTests {
     }
 
     private void clearData(){
-        clearAllData(cartRepository, categoryRepository, reviewRepository, userRepository, merchandiseRepository);
+        clearAllData(quantityRepository, cartRepository, categoryRepository, reviewRepository, userRepository, merchandiseRepository);
     }
 
-    public static void clearAllData(CartRepository cartRepository, CategoryRepository categoryRepository, ReviewRepository reviewRepository, UserRepository userRepository,
+    public static void clearAllData(QuantityRepository quantityRepository, CartRepository cartRepository, CategoryRepository categoryRepository, ReviewRepository reviewRepository, UserRepository userRepository,
                                     MerchandiseRepository merchandiseRepository){
+        quantityRepository.deleteAllInBatch();
+        quantityRepository.truncateTable();
+
         reviewRepository.deleteAllInBatch();
         reviewRepository.truncateTable();
 
@@ -84,7 +95,7 @@ public class UserRepositoryTests {
 
         CategoryRepositoryTests.createSampleData(categoryRepository);
         MerchandiseRepositoryTests.createSampleData(merchandiseService, userRepository);
-        CartRepositoryTests.createSampleData(userService, cartRepository, merchandiseRepository, cartService);
+        CartRepositoryTests.createSampleData(quantityService, userService, cartRepository, merchandiseRepository, cartService);
     }
 
     public static void createSampleData(UserService userService){

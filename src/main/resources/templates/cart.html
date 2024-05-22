@@ -7,28 +7,30 @@
     <br>
     <h5>장바구니</h5>
     <br><br>
+    <div th:if="${user.cart.merchandiseList.empty}">
+        <br><br><br><br><br><br><br><br>
+        <h3 style="text-align: center">장바구니에 상품이 없습니다.</h3>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
     <div th:each="merchandise : ${user.cart.merchandiseList}">
-    <table height="300" class="table border border-2 border-dark table-bordered">
+        <a style="scroll-margin-top:10px;" th:id="|merchandise_${merchandise.id}|"></a>
+        <table height="300" class="table border border-2 border-dark table-bordered">
         <thead>
         <tr class="text-center align-middle">
             <td width="30%" rowspan="8" colspan="8" th:text="${merchandise.image}"></td>
             <td width="30%" rowspan="2" colspan="8" th:text="|상품: ${merchandise.merchandiseName}|"></td>
             <td width="15%" rowspan="8" colspan="8">
                 <div>
-                    <div id="mQuantity" th:text="|수량: ${merchandise.quantity.size()}|"></div>
-                    <a th:href="@{|/cart/quantity/${merchandise.id}|}" class="btn btn-sm btn-outline-secondary"
-                        th:text="감소"></a>
-                    <a th:href="@{|/cart/quantity/${merchandise.id}|}" class="btn btn-sm btn-outline-secondary"
+                    <div th:each="quantity : ${merchandise.quantityList}" th:if="${quantity.merchandise.id == merchandise.id && quantity.cart.id == user.cart.id}" th:text="|수량: ${quantity.quantity}|"></div>
+                    <a th:href="@{|/cart/decrease/${merchandise.id}|}" class="btn btn-sm btn-outline-secondary"
+                       th:text="감소"></a>
+                    <a th:href="@{|/cart/increase/${merchandise.id}|}" class="btn btn-sm btn-outline-secondary"
                         th:text="추가"></a>
                 </div>
             </td>
             <td width="25%" rowspan="8" colspan="8">
                 <div>
-                    <div id="mQuantity2" th:text="|합계: ${merchandise.price*merchandise.quantity.size()}|"></div>
-                    <a th:href="@{|/cart/cancel/${merchandise.id}|}" class="btn btn-sm btn-outline-secondary"
-                       th:text="취소하기"></a>
-                    <a th:href="@{|/cart/buy/${merchandise.id}|}" class="btn btn-sm btn-outline-secondary"
-                       th:text="결제하기"></a>
+                    <div id="mQuantity2" th:text="|합계: ${merchandise.price}|"></div>
                 </div>
             </td>
         </tr>
@@ -44,7 +46,19 @@
         <tr class="text-center align-middle">
             <td rowspan="2" colspan="8" th:text="|${merchandise.category.gender} / ${merchandise.category.clothType} / ${merchandise.category.season}|"></td>
         </tr>
-    </table>
+        </table>
         <br>
     </div>
+    <button onclick="cartBuy()" type="submit" class="btn btn-primary">전체 결제하기</button>
+    <br>
+    <br>
+    <button onclick="cartDelete()" type="submit" class="btn btn-primary">장바구니 비우기</button>
 </div>
+<script layout:fragment="script" type='text/javascript'>
+function cartDelete(){
+    event.preventDefault();
+    if(confirm("장바구니의 모든 상품이 삭제됩니다,\n정말 삭제하시겠습니까?")){
+        location.href = "/cart/delete";
+    }
+}
+</script>

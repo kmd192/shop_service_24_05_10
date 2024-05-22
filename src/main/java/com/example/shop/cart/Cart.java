@@ -27,7 +27,7 @@ public class Cart {
     private final List<Merchandise> merchandiseList = new ArrayList<>();
 
     @OneToMany(mappedBy = "cart")
-    private List<Quantity> quantity;
+    private final List<Quantity> quantityList = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
     private SiteUser cartUser;
@@ -39,4 +39,5 @@ public class Cart {
 
     public void changeCart(String merchandiseList){
     }
+
 }

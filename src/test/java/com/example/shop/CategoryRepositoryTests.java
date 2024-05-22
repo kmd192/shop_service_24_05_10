@@ -4,6 +4,7 @@ import com.example.shop.cart.CartRepository;
 import com.example.shop.category.Category;
 import com.example.shop.category.CategoryRepository;
 import com.example.shop.merchandise.MerchandiseRepository;
+import com.example.shop.quantity.QuantityRepository;
 import com.example.shop.review.ReviewRepository;
 import com.example.shop.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,13 +32,16 @@ public class CategoryRepositoryTests {
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private QuantityRepository quantityRepository;
+
     @BeforeEach
     void beforeEach(){
         clearData();
     }
 
     private void clearData() {
-        UserRepositoryTests.clearAllData(cartRepository, categoryRepository, reviewRepository, userRepository, merchandiseRepository);
+        UserRepositoryTests.clearAllData(quantityRepository, cartRepository, categoryRepository, reviewRepository, userRepository, merchandiseRepository);
     }
 
     private void createSampleData() {

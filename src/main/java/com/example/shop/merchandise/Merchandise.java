@@ -51,7 +51,7 @@ public class Merchandise {
     private String image;
 
     @OneToMany(mappedBy = "merchandise")
-    private final List<Quantity> quantity = new ArrayList<>();
+    private final List<Quantity> quantityList = new ArrayList<>();
 
     Merchandise changeMerchandiseInfoEntity(String merchandiseName, long price,
                           String size, String image){

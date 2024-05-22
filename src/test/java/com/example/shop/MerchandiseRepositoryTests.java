@@ -8,6 +8,8 @@ import com.example.shop.category.CategoryService;
 import com.example.shop.merchandise.Merchandise;
 import com.example.shop.merchandise.MerchandiseRepository;
 import com.example.shop.merchandise.MerchandiseService;
+import com.example.shop.quantity.QuantityRepository;
+import com.example.shop.quantity.QuantityService;
 import com.example.shop.review.ReviewRepository;
 import com.example.shop.review.ReviewService;
 import com.example.shop.user.SiteUser;
@@ -57,6 +59,12 @@ public class MerchandiseRepositoryTests {
     @Autowired
     private CartService cartService;
 
+    @Autowired
+    private QuantityService quantityService;
+
+    @Autowired
+    private QuantityRepository quantityRepository;
+
     @BeforeEach
     void beforeEach() {
         clearData();
@@ -64,7 +72,7 @@ public class MerchandiseRepositoryTests {
     }
 
     private void clearData() {
-        UserRepositoryTests.clearAllData(cartRepository, categoryRepository, reviewRepository, userRepository, merchandiseRepository);
+        UserRepositoryTests.clearAllData(quantityRepository, cartRepository, categoryRepository, reviewRepository, userRepository, merchandiseRepository);
     }
 
     private void createSampleData() {
@@ -72,7 +80,7 @@ public class MerchandiseRepositoryTests {
         UserRepositoryTests.createSampleData(userService);
         merchandiseService.createMerchandise("티셔츠1", 15000L, "XL", " ", "image", "MALE", "TOP", "SPRING", userRepository.findByUsername("user1").get());
         merchandiseService.createMerchandise("신발1", 20000L, " ", "260", "image", "MALE", "SHOES", "SPRING", userRepository.findByUsername("user1").get());
-        CartRepositoryTests.createSampleData(userService, cartRepository, merchandiseRepository, cartService);
+        CartRepositoryTests.createSampleData(quantityService, userService, cartRepository, merchandiseRepository, cartService);
     }
 
     public static void createSampleData(MerchandiseService merchandiseService, UserRepository userRepository) {
