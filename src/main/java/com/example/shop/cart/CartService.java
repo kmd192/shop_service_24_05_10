@@ -46,6 +46,7 @@ public class CartService {
 
     public void deleteAllMerchandise(Cart cart) {
         cart.getMerchandiseList().clear();
+        quantityService.deleteQuantity(cart);
         cartRepository.save(cart);
     }
 }

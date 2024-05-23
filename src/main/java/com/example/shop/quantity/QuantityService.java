@@ -5,6 +5,8 @@ import com.example.shop.merchandise.Merchandise;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class QuantityService {
@@ -39,4 +41,13 @@ public class QuantityService {
         }
         return 0;
         }
+
+    public void deleteQuantity(Cart cart) {
+        Iterable<Quantity> iterable = getQuantity(cart);
+        quantityRepository.deleteAll(iterable);
+    }
+
+    public List<Quantity> getQuantity(Cart cart){
+        return quantityRepository.findByCartId(cart.getId());
+    }
 }

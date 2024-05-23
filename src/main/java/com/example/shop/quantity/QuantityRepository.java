@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface QuantityRepository extends JpaRepository<Quantity, Long> {
 
     Quantity findByMerchandiseIdAndCartId(long merchandiseId, long cartId);
@@ -13,4 +15,6 @@ public interface QuantityRepository extends JpaRepository<Quantity, Long> {
     @Modifying
     @Query(value = "ALTER TABLE quantity AUTO_INCREMENT = 1", nativeQuery = true)
     void truncateTable();
+
+    List<Quantity> findByCartId(long id);
 }
