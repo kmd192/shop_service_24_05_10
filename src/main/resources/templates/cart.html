@@ -29,9 +29,8 @@
                 </div>
             </td>
             <td width="25%" rowspan="8" colspan="8">
-                <div>
-                    <div id="mQuantity2" th:text="|합계: ${merchandise.price}|"></div>
-                </div>
+                <div th:id="'totalPrice_' + ${status.index}" th:each="quantity, status : ${merchandise.quantityList}" th:if="${quantity.merchandise.id == merchandise.id && quantity.cart.id == user.cart.id}"
+                     th:text="|합계: ${merchandise.price * quantity.quantity}|" th:value="${merchandise.price * quantity.quantity}"></div>
             </td>
         </tr>
         <tr></tr>
@@ -49,16 +48,32 @@
         </table>
         <br>
     </div>
-    <button onclick="cartBuy()" type="submit" class="btn btn-primary">전체 결제하기</button>
-    <br>
-    <br>
-    <button onclick="cartDelete()" type="submit" class="btn btn-primary">장바구니 비우기</button>
+    <span>
+        <button onclick="cartDelete()" type="submit" class="btn btn-primary">장바구니 비우기</button>
+    </span>
+    <span>
+        <button onclick="cartBuy()" type="submit" class="btn btn-primary">전체 결제하기</button>
+    </span>
 </div>
 <script layout:fragment="script" type='text/javascript'>
 function cartDelete(){
     event.preventDefault();
     if(confirm("장바구니의 모든 상품이 삭제됩니다,\n정말 삭제하시겠습니까?")){
         location.href = "/cart/delete";
+    }
+}
+
+function cartBuy(){
+    event.preventDefault();
+    var totalPriceElements = document.querySelectorAll("[id^='totalPrice_']");
+    var total = 0;
+    totalPriceElements.forEach(function(element){
+        var totalPrice = element.innerText;
+        console.log(totalPrice);
+        total += parseInt(totalPrice.replace('합계: ', ''));
+    })
+    if(confirm("총 구매 금액은 " + total + "입니다. \n정말 구매하시겠습니까?")){
+        location.href = "/cart/buy";
     }
 }
 </script>

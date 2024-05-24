@@ -31,10 +31,13 @@
             <input type="text" th:field="${user.address}" id="address" class="form-control">
         </div>
         <br>
-        <button type="submit" class="btn btn-primary">수정하기</button>
+        <span>
+            <button type="submit" class="btn btn-primary">수정하기</button>
+        </span>
+        <span>
+            <button th:data-uri="@{|/user/delete/${user.id}|}" onclick="onClick(this)" type="submit" class="btn btn-primary">삭제하기</button>
+        </span>
     </form>
-    <br>
-        <button th:data-uri="@{|/user/delete/${user.id}|}" onclick="onClick(this)" type="submit" class="btn btn-primary">삭제하기</button>
 </div>
 <script layout:fragment="script" type='text/javascript'>
 function onClick(button){

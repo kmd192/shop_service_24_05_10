@@ -2,6 +2,7 @@ package com.example.shop.cart;
 
 import com.example.shop.merchandise.Merchandise;
 import com.example.shop.merchandise.MerchandiseService;
+import com.example.shop.quantity.Quantity;
 import com.example.shop.quantity.QuantityService;
 import com.example.shop.user.SiteUser;
 import com.example.shop.user.UserService;
@@ -48,5 +49,19 @@ public class CartService {
         cart.getMerchandiseList().clear();
         quantityService.deleteQuantity(cart);
         cartRepository.save(cart);
+    }
+
+    public void buyMerchandise(Cart cart) {
+        long totalPrice = 0;
+        for(Merchandise merchandise : cart.getMerchandiseList()){
+            for(Quantity quantity : merchandise.getQuantityList()){
+                if(quantity.getCart().getId() == cart.getId()){
+                    totalPrice += merchandise.getPrice()*quantity.getQuantity();
+                }
+            }
+        }
+        userService.addCash(cart.getCartUser().getUsername(), -totalPrice);
+        cart.getMerchandiseList().clear();
+        deleteAllMerchandise(cart);
     }
 }

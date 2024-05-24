@@ -89,4 +89,14 @@ public class CartController {
         return "cart";
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/buy")
+    public String buy(Principal principal, Model model){
+        SiteUser siteUser = userService.getUser(principal.getName());
+        Cart cart = siteUser.getCart();
+        cartService.buyMerchandise(cart);
+        model.addAttribute("user", siteUser);
+        return "cart";
+    }
+
 }

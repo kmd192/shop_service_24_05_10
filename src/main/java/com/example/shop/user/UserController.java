@@ -11,10 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
@@ -104,6 +101,23 @@ public class UserController {
         merchandiseService.deleteByUserId(id);
         userService.delete(id);
         return "redirect:/";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/cash")
+    public String userCash(Principal principal, Model model){
+        SiteUser siteUser = userService.getUser(principal.getName());
+        model.addAttribute("user", siteUser);
+        return "user_cash";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/chargeCash")
+    public String chargeCash(@RequestParam long chargeCash, Principal principal, Model model){
+        SiteUser siteUser = userService.getUser(principal.getName());
+        userService.addCash(principal.getName(), chargeCash);
+        model.addAttribute("user", siteUser);
+        return "user_cash";
     }
 
 }

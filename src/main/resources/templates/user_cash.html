@@ -1,0 +1,51 @@
+<html layout:decorate="~{layout}"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://thymeleaf.org">
+
+<html layout:decorate="~{layout}"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://thymeleaf.org">
+
+<div layout:fragment="content" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>보유캐시</h4>
+        </div>
+    </div>
+    <br>
+    <form action="/user/chargeCash">
+        <div>
+            보유캐시: <input id="beforeCash" type="number" th:value="${user.cash}" disabled>
+        </div>
+        <br>
+        <div>
+            충전할 캐시: <input id="chargeCash" name="chargeCash" type="number">
+        </div>
+        <br><br><br><br><br>
+        <span>
+            <button onclick="onClick()" type="submit" class="btn btn-primary">캐시충전</button>
+        </span>
+    </form>
+</div>
+<script layout:fragment="script" type='text/javascript'>
+function onClick(){
+    event.preventDefault();
+    var beforeCash = parseInt(document.getElementById('beforeCash').value);
+    var chargeCash = parseInt(document.getElementById('chargeCash').value);
+     var afterCash = beforeCash + chargeCash;
+
+    if (chargeCash < 1000 || isNaN(chargeCash)) {
+        alert("충전할 캐시는 천원 이상이어야 합니다.");
+        return;
+    } else if( afterCash > 10000000){
+        alert("보유할 수 있는 최대 캐시는 천만원 입니다.");
+        return;
+    }
+
+    if(confirm("충전후 보유캐시는 " + afterCash + "입니다.\n정말 충전하시겠습니까?")){
+        var form = document.querySelector('form');
+        form.submit();
+    }
+}
+</script>
+</html>
